@@ -6,7 +6,7 @@ permalink: pretty
 safe: true
 lsi: false
 pygments: true
-baseurl: /plan-it
+baseurl: /atlbreeze
 
 # prose.io settings
 # https://github.com/prose/prose/wiki/Prose-Configuration
