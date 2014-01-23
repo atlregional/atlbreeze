@@ -2,7 +2,7 @@ atlbreeze
 =======
 http://landonreed.github.io/atlbreeze
 
-Demo showing that thewe Atlanta region already hashave the tools for an integrated and complete regional transit...
+Demo showing that the Atlanta region already has the tools for an integrated and complete regional transit...
 
 1. trip planningplanner
 2. online fare payment
