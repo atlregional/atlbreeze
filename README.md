@@ -10,7 +10,7 @@ Demo showing that thewe Atlanta region already hashave the tools for an integrat
 
 ##FAQ
 
-**Q:** Aren't each of these pages just iframes showing other sites that exist elsewhere?
+**Q:** Isn't each of these pages just iframes showing other sites that exist elsewhere?
 
 **A:** Yep!  That's the point.  People already have great solutions in production for making regional transit work really well.  It's just a matter of pulling these products together under one roof.
 
