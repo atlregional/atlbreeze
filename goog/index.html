@@ -31,12 +31,23 @@ category: 'goog'
   </div> -->
   <div class="form-group">
     <div class="col-sm-offset-2 col-sm-10">
-      <button type="submit" class="btn btn-default">Plan it!</button>
+      <button type="submit" class="btn btn-default" id="plan-trip">Plan it!</button>
     </div>
   </div>
 </form>
 </div>
 <div class="col-md-9">
-	<iframe src="https://www.google.com/maps/embed/v1/directions?key=AIzaSyD0WV0LgK2em6I2KOL5viUX1wP_VyQOQNk&origin=Oslo+Norway&destination=Notodden+Norway&avoid=tolls|highways" style:"position:relative;top:-200px;" width="600px" height="450px" frameBorder="0"></iframe>
+	<iframe id="map" src="https://www.google.com/maps/embed/v1/view?key=AIzaSyD0WV0LgK2em6I2KOL5viUX1wP_VyQOQNk&origin=Oslo+Norway&destination=Notodden+Norway&avoid=tolls|highways" style:"position:relative;top:-200px;" width="600px" height="450px" frameBorder="0"></iframe>
 	</div>
 </div>
+
+<script type="text/javascript">
+	var key = 'AIzaSyD0WV0LgK2em6I2KOL5viUX1wP_VyQOQNk';
+	var url = 'https://www.google.com/maps/embed/v1/'
+	$('#plan-trip').click(function(){
+		var origin = $('#origin').val();
+		var destination = $('#destination').val();
+		var src = url + 'directions?key=' + key + '&origin=' + origin + '&destination=' + destination + '&mode=transit'
+		$('#map').attr('src', src)
+	})
+</script>
