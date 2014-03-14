@@ -31,7 +31,7 @@ category: 'goog'
   </div> -->
   <div class="form-group">
     <div class="col-sm-offset-2 col-sm-10">
-      <button type="submit" class="btn btn-default" id="plan-trip">Plan it!</button>
+      <button type="button" class="btn btn-default" id="plan-trip">Plan it!</button>
     </div>
   </div>
 </form>
@@ -46,8 +46,12 @@ category: 'goog'
 	var url = 'https://www.google.com/maps/embed/v1/'
 	$('#plan-trip').click(function(){
 		var origin = $('#origin').val();
+		console.log(origin)
+
 		var destination = $('#destination').val();
+		console.log(destination)
 		var src = url + 'directions?key=' + key + '&origin=' + origin + '&destination=' + destination + '&mode=transit'
+		console.log(src)
 		$('#map').attr('src', src)
 	})
 </script>
