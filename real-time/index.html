@@ -3,4 +3,20 @@ layout: explore
 title: Real-time info
 category: 'real-time'
 ---
+<a class="hidden-xs" href="http://atlanta.onebusaway.org/" title="Real-time information provided by OneBusAway"><img id="obalogo"  style="position:fixed;right:100px;z-index:999;" src="{{ site.baseurl }}/lib/images/oba_logo.png" width="80px"></a>
 <iframe id="oba" frameBorder="0" src="http://atlanta.onebusaway.org/where/standard/" width="1100px" height="860px" style="position:absolute; clip:rect(50px,1100px,860px,0px);top:-10px;"></iframe>
+<script type="text/javascript">
+	$( document ).ready(function() {
+		$('#obalogo').hide().fadeIn('slow');
+		$("a.navvie").click(function(event){
+	        event.preventDefault();
+	        var linkLocation = this.href;
+	        $("#obalogo").fadeOut(250, function(){
+	        	        window.location = linkLocation;
+	        });      
+	    });
+	})
+// 	function redirectPage() {
+//         window.location = linkLocation;
+//     }
+</script>
