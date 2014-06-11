@@ -14,23 +14,34 @@
   <!-- Collect the nav links, forms, and other content for toggling -->
   <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
     <ul class="nav navbar-nav">
-      <li class="plan"><a class="navvie" href="{{ site.baseurl }}/">Plan trip</a></li>
+    <li class="dropdown plan">
+        <a href="#" class="dropdown-toggle"  data-toggle="dropdown">Plan trip <b class="caret"></b></a>
+        <ul class="dropdown-menu">
+          <li><a class="navvie" href="{{ site.baseurl }}/">OpenTripPlanner</a></li>
+          <li><a class="navvie" href="{{ site.baseurl }}/goog">Google Maps</a></li>
+          <!-- <li><a href="{{ site.baseurl }}/explore/map"><span class="glyphicon glyphicon-map-marker"></span> Map</a></li>
+          <li class="divider"></li>
+          <li><a href="http://atlantaregional.com/about-us/regional-data-and-tools"><span class="glyphicon glyphicon-search"></span> Other ARC data</a></li> -->
+        </ul>
+      </li>
       <li class="fare"><a class="navvie" href="{{ site.baseurl }}/fare">Get fare</a></li>
-      <li class="real-time"><a class="navvie" href="{{ site.baseurl }}/real-time">Real-time info</a></li>
-      
+      <li class="real-time"></li>
+      <li class="dropdown real-time">
+        <a href="#" class="dropdown-toggle"  data-toggle="dropdown">Real-time info <b class="caret"></b></a>
+        <ul class="dropdown-menu">
+          <li><a class="navvie" href="{{ site.baseurl }}/real-time">Arrival info</a></li>
+          <li><a class="navvie" href="{{ site.baseurl }}/alerts">Service Alerts</a></li>
+          <!-- <li><a href="{{ site.baseurl }}/explore/map"><span class="glyphicon glyphicon-map-marker"></span> Map</a></li>
+          <li class="divider"></li>
+          <li><a href="http://atlantaregional.com/about-us/regional-data-and-tools"><span class="glyphicon glyphicon-search"></span> Other ARC data</a></li> -->
+        </ul>
+      </li>
+<!--       <li class="alerts"><a class="navvie" href="{{ site.baseurl }}/alerts">Alerts</a></li>
+ -->      
     </ul>
     <ul class="nav navbar-nav navbar-right">
     <li class="about" style="position:relative;right:180px;"><a class="navvie" href="{{ site.baseurl }}/about" >About</a></li>
-      <!-- <li class="dropdown explore" style="position:relative;right:180px;">
-        <a href="#" class="dropdown-toggle"  data-toggle="dropdown">My Account <b class="caret"></b></a>
-        <ul class="dropdown-menu">
-          <li><a href="{{ site.baseurl }}/explore/pivot"><span class="glyphicon glyphicon-list-alt"></span> Pivot Table</a></li>
-          <li><a href="{{ site.baseurl }}/explore/viz"><span class="glyphicon glyphicon-dashboard"></span> Visualizations</a></li>
-          <li><a href="{{ site.baseurl }}/explore/map"><span class="glyphicon glyphicon-map-marker"></span> Map</a></li>
-          <li class="divider"></li>
-          <li><a href="http://atlantaregional.com/about-us/regional-data-and-tools"><span class="glyphicon glyphicon-search"></span> Other ARC data</a></li>
-        </ul>
-      </li> -->
+      
       <li style="position:relative; top:10px; left:10px;">
         <span>
           <!-- <span id="welcome-message" style="display:none;"></span><button id="gh-login" class="btn btn-success" data-loading-text="Logging in..." title="Log in with GitHub">Log in</button> -->
