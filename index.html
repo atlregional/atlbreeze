@@ -1,6 +1,109 @@
 ---
-layout: default
+layout: scroll
 title: Plan trip
-category: 'plan'
+category: ''
 ---
-<iframe src="http://opentrip.atlantaregion.com/otp-leaflet-client/" style="position:relative;top:-80px;" width="100%" height="860px" frameBorder="0"></iframe>
+	<!--
+		We position the images fixed and therefore need to place them outside of #skrollr-body.
+		We will then use data-anchor-target to display the correct image matching the current section (.gap element).
+	-->
+
+	<div
+		class="parallax-image-wrapper parallax-image-wrapper-100"
+		data-anchor-target="#dragons + .gap"
+		data-bottom-top="transform:translate3d(0px, 200%, 0px)"
+		data-top-bottom="transform:translate3d(0px, 0%, 0px)">
+
+		<div
+			class="parallax-image parallax-image-100"
+			style="background-image:url(http://upload.wikimedia.org/wikipedia/commons/a/a7/Atlanta_Skyline_from_Buckhead.jpg)"
+			data-anchor-target="#dragons + .gap"
+			data-bottom-top="transform: translate3d(0px, -80%, 0px);"
+			data-top-bottom="transform: translate3d(0px, 80%, 0px);"
+		></div>
+		<!--the +/-80% translation can be adjusted to control the speed difference of the image-->
+	</div>
+
+	<div
+		class="parallax-image-wrapper parallax-image-wrapper-100"
+		data-anchor-target="#bacons + .gap"
+		data-bottom-top="transform:translate3d(0px, 200%, 0px)"
+		data-top-bottom="transform:translate3d(0px, 0%, 0px)">
+
+		<div
+			class="parallax-image parallax-image-100"
+			style="background-image:url({{site.baseurl}}/lib/images/trip.png)"
+			data-anchor-target="#bacons + .gap"
+			data-bottom-top="transform: translate3d(0px, -80%, 0px);"
+			data-top-bottom="transform: translate3d(0px, 80%, 0px);"
+		></div>
+	</div>
+
+	<div
+		class="parallax-image-wrapper parallax-image-wrapper-50"
+		data-anchor-target="#kittens + .gap"
+		data-bottom-top="transform:translate3d(0px, 300%, 0px)"
+		data-top-bottom="transform:translate3d(0px, 0%, 0px)">
+
+		<div
+			class="parallax-image parallax-image-50"
+			style="background-image:url({{site.baseurl}}/lib/images/marta_logo.svg);background-size: 827px	 120px;"
+			data-anchor-target="#kittens + .gap"
+			data-bottom-top="transform: translate3d(0px, -60%, 0px);"
+			data-top-bottom="transform: translate3d(0px, 60%, 0px);"
+		></div>
+	</div>
+
+	<div id="skrollr-body">
+		<div class="header jumbotron" style="background: white;" id="dragons">
+			<h1>A regional transit system... connected.</h1>
+		</div>
+		
+		<div class="gap gap-100" style="background-image:url(http://upload.wikimedia.org/wikipedia/commons/a/a7/Atlanta_Skyline_from_Buckhead.jpg);"></div>
+		
+		<div id="content" >
+			<h2 class="text-center">Getting from <span class="glyphicon glyphicon-map-marker"></span> to <span class="glyphicon glyphicon-map-marker"></span> no longer feels like this.</h2>
+			<svg xmlns="http://www.w3.org/2000/svg" version="1.1" width="1200px" height="400px">
+				<path
+				style="fill:none;stroke:#333333;stroke-width:7;stroke-linecap:round;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:6000;stroke-dashoffset:0"
+				data-0="stroke-dashoffset:6000;" 
+				data-end="stroke-dashoffset:0;"
+
+				 d="m 102.00357,114.79566 c 0,0 -17.816564,2.36201 55.04059,-23.352277 72.85714,-25.714279 151.65137,-30.077366 190.53572,9.618517 74.57975,144.47592 256.44432,115.99663 224.22336,48.13255 -24.1281,-36.02184 -83.8665,-22.99939 -127.90031,17.13936 -124.09452,109.32363 -37.50428,192.55927 112.47159,146.79383 64.82739,-20.82521 125.99204,-49.44549 138.85958,-12.36607 13.88401,40.0085 -36.08058,53.6975 -66.05364,60.95667 -45.98126,11.13619 -234.90891,-32.58239 -69.81856,-100.65251 132.42228,-54.60041 586.0658,-73.42041 642.6254,-66.27007"
+
+				/>
+			</svg>
+		</div>
+		<div class="content" id="bacons">
+
+			
+		</div>
+		<div class="gap gap-100" style="background-image:url(http://upload.wikimedia.org/wikipedia/commons/a/a7/Atlanta_Skyline_from_Buckhead.jpg);">
+			<h2 style="position:relative; left:500px; top:600px; background:#eee; width:800px;">Now you can plan a trip from <a href="{{site.baseurl}}/plan/otp">Douglasville to Chamblee</a> with ease.</h2>
+		</div>
+		<div class="content content-full" id="kittens">
+			<h1 style="margin-top:100px;"class="text-center">The Atlanta region's transit operators have teamed up to provide this pilot project...	</h1>
+			<img style="margin-left:200px;" src="{{site.baseurl}}/lib/images/bus.png">
+			<h1 class="pull-right" style="margin-right:200px;position:relative; top:460px;">...and <a href="{{site.baseurl}}/feedback">we want your feedback</a>!</h1>
+		</div>
+		<div class="gap gap-50" style="background-image:url(lib/images/kitteh3.jpg);"></div>
+		<div class="content" id="done">
+			<h1 class="text-center" style="margin-top:200px;">On behalf of the buses and trains of Atlanta, thanks for riding!</h1>
+			<div class="text-center">
+				<a href="{{site.baseurl}}/plan/otp" class="btn btn-lg btn-default">Plan a trip</a>
+				<a href="{{site.baseurl}}/fare" class="btn btn-lg btn-default">Get fare</a>	
+				<a href="{{site.baseurl}}/real-time" class="btn btn-lg btn-default">Find your bus</a>	
+				<a href="{{site.baseurl}}/alerts" class="btn btn-lg btn-default">Service alerts</a>	
+			</div>
+			
+		</div>
+	</div>
+
+	<script type="text/javascript" src="../lib/javascripts/skrollr.min.js"></script>
+	<script type="text/javascript">
+	skrollr.init({
+		smoothScrolling: false,
+		mobileDeceleration: 0.004
+	});
+	</script>
+</body>
