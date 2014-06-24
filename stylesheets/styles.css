@@ -21,6 +21,8 @@ body { padding-top: 70px; }
   display:none;
 }
 
+.top-buffer { margin-top:20px; }
+
 .login-prompt {
   -webkit-touch-callout: none;
   -webkit-user-select: none;
