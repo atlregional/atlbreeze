@@ -826,10 +826,10 @@ function legItem(leg){
     }
     return legItem;
 }
-
+var lines;
 function renderItinerary(idx,moveto){
     $('#planner-leg-list').html('');
-    var lines = [];
+    lines = {};
     var itin = itineraries[idx];
     var generic = {
           "type": "Feature",
@@ -850,44 +850,49 @@ function renderItinerary(idx,moveto){
       };
         var points = polyline.decode(leg.legGeometry.points)
         line.geometry.coordinates.push(points);
-        var route;
+        
         
         
         var name = 'route';
-        if(leg.route === "BLUE") {
+        if(leg.route === "BLUE" || leg.route === "GREEN" || leg.route === "RED" || leg.route === "GOLD") {
           name = leg.route;
-          route = new mapboxgl.GeoJSONSource({ data: line });
-        }
-        else if(leg.route === "GREEN") {
-          name = leg.route;
-          route = new mapboxgl.GeoJSONSource({ data: line });
-        }
-        else if(leg.route === "RED") {
-          name = leg.route;
-          route = new mapboxgl.GeoJSONSource({ data: line });
-        }
-        else if(leg.route === "GOLD") {
-          name = leg.route;
-          route = new mapboxgl.GeoJSONSource({ data: line });
+          if ( lines[name]){
+            lines[name].geometry.coordinates.push(points)
+          }
+          else{
+            lines[name] = line;
+          }
         }
         else if (leg.agencyId == 'MARTA' || leg.agencyId == 'GRTA' || leg.agencyId == 'GCT' || leg.agencyId == 'CCT'){
           name = leg.agencyId;
-          route = new mapboxgl.GeoJSONSource({ data: line });
+          if ( lines[name]){
+            lines[name].geometry.coordinates.push(points)
+          }
+          else{
+            lines[name] = line;
+          }
         }
         else{
           name = 'route';
-          generic.geometry.coordinates.push(points);
-          route = new mapboxgl.GeoJSONSource({ data: generic });
+          if ( lines[name]){
+            lines[name].geometry.coordinates.push(points)
+          }
+          else{
+            lines[name] = line;
+          }
         }
         console.log(name)
-        lines.push({"name": name,"route": route})
+        
         // map.addSource(name, route);
         
         $('#planner-leg-list').append(legItem(leg));
 
         if (index == itin.legs.length - 1){
-          $.each(lines, function(i, item){
-            map.addSource(item.name, item.route);
+          console.log("HERE!")
+          $.each(lines, function(i, line){
+            console.log(i)
+            var route = new mapboxgl.GeoJSONSource({ data: line });
+            map.addSource(i, route);
           });
           
         }
@@ -1258,15 +1263,15 @@ function setupAutoComplete(){
 }
 
 function switchLocale() {
-	$(".label-from").text(Locale.from);
-	$(".label-via").text(Locale.via);
-	$(".label-dest").text(Locale.to);
-	$(".label-time").text(Locale.time);
-	$(".label-date").text(Locale.date);
-	$(".label-edit").text(Locale.edit);
-	$(".label-plan").text(Locale.plan);
+  $(".label-from").text(Locale.from);
+  $(".label-via").text(Locale.via);
+  $(".label-dest").text(Locale.to);
+  $(".label-time").text(Locale.time);
+  $(".label-date").text(Locale.date);
+  $(".label-edit").text(Locale.edit);
+  $(".label-plan").text(Locale.plan);
 
-	$(".planner-options-timeformat").text(Locale.timeFormat);
+  $(".planner-options-timeformat").text(Locale.timeFormat);
 
   // $("#planner-options-date").datepicker('option', {
   //     dateFormat: Locale.dateFormat, 
@@ -1276,8 +1281,8 @@ function switchLocale() {
   // });
 
   $("#planner-options-date").attr('aria-label', Locale.dateAriaLabel);
-	$("#planner-options-from").attr('placeholder', Locale.geocoderInput).attr('title', Locale.from);
-	$("#planner-options-via").attr('placeholder', Locale.geocoderInput).attr('title', Locale.via);
-	$("#planner-options-dest").attr('placeholder', Locale.geocoderInput).attr('title', Locale.to);
-	$("#planner-options-submit").attr('data-loading-text', Locale.loading);
+  $("#planner-options-from").attr('placeholder', Locale.geocoderInput).attr('title', Locale.from);
+  $("#planner-options-via").attr('placeholder', Locale.geocoderInput).attr('title', Locale.via);
+  $("#planner-options-dest").attr('placeholder', Locale.geocoderInput).attr('title', Locale.to);
+  $("#planner-options-submit").attr('data-loading-text', Locale.loading);
 }
