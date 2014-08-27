@@ -167,21 +167,7 @@ mapboxgl.accessToken = 'pk.eyJ1IjoiYXRscmVnaW9uYWwiLCJhIjoiQmZ6d2tyMCJ9.oENm3NSf
 mapboxgl.util.getJSON('https://www.mapbox.com/mapbox-gl-styles/styles/bright-v4.json', function (err, style) {
   if (err) throw err;
 
-  style.layers.push({
-    "id": "markers",
-    "source": "markers",
-    "type": "symbol",
-    "render": {
-      "icon-image": "{marker-symbol}-12",
-      "text-field": "{title}",
-      "text-font": "Open Sans Semibold, Arial Unicode MS Bold",
-      "text-offset": [0, 0.6],
-      "text-vertical-align": "top"
-    },
-    "style": {
-      "text-size": 12
-    }
-  });
+  
 
   style.layers.push({
     "id": "route",
@@ -311,7 +297,21 @@ mapboxgl.util.getJSON('https://www.mapbox.com/mapbox-gl-styles/styles/bright-v4.
     },
     "type": "line"
   });
-
+style.layers.push({
+    "id": "markers",
+    "source": "markers",
+    "type": "symbol",
+    "render": {
+      "icon-image": "{marker-symbol}-12",
+      "text-field": "{title}",
+      "text-font": "Open Sans Semibold, Arial Unicode MS Bold",
+      "text-offset": [0, 0.6],
+      "text-vertical-align": "top"
+    },
+    "style": {
+      "text-size": 12
+    }
+  });
 map = new mapboxgl.Map({
   container: 'map', // container id
   style: style, //stylesheet location
