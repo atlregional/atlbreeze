@@ -81,9 +81,54 @@ function reverseGeocode(point, id){
     }
   })
 }
+function getBoundingBox (data) {
+    var bounds = {}, coords, point, latitude, longitude;
+
+    // We want to use the “features” key of the FeatureCollection (see above)
+    data = data.features;
+
+    // Loop through each “feature”
+    for (var i = 0; i < data.length; i++) {
+
+        // Pull out the coordinates of this feature
+        coords = data[i].geometry.coordinates[0];
+
+        // For each individual coordinate in this feature's coordinates…
+        for (var j = 0; j < coords.length; j++) {
+
+            longitude = coords[j][0];
+            latitude = coords[j][1];
+
+            // Update the bounds recursively by comparing the current
+            // xMin/xMax and yMin/yMax with the coordinate 
+            // we're currently checking
+            bounds.xMin = bounds.xMin < longitude ? bounds.xMin : longitude;
+            bounds.xMax = bounds.xMax > longitude ? bounds.xMax : longitude;
+            bounds.yMin = bounds.yMin < latitude ? bounds.yMin : latitude;
+            bounds.yMax = bounds.yMax > latitude ? bounds.yMax : latitude;
+        }
+
+    }
+
+    // Returns an object that contains the bounds of this GeoJSON
+    // data. The keys of this object describe a box formed by the
+    // northwest (xMin, yMin) and southeast (xMax, yMax) coordinates.
+    return bounds;
+}
+function maxBounds(bounds1, bounds2){
+  var bounds = {};
+  bounds.xMin = Math.max(bounds1.xMin, bounds2.xMin);
+  bounds.xMax = Math.max(bounds1.xMax, bounds2.xMax);
+  bounds.yMin = Math.max(bounds1.yMin, bounds2.yMin);
+  bounds.yMax = Math.max(bounds1.yMax, bounds2.yMax);
+  return bounds;
+}
 function addMarker(point, title, symbol){
   title = truncate(title, 60);
   console.log(title)
+  if (geoJSON.features.length > 0){
+    map.removeSource('markers', markers);
+  }
   geoJSON.features.push({
           "type": "Feature",
           "geometry": {
@@ -95,14 +140,25 @@ function addMarker(point, title, symbol){
             "marker-symbol": symbol
           }
         });
-  if (typeof markers !== 'undefined'){
-    map.removeSource('markers', markers);
-  }
+  
   markers = new mapboxgl.GeoJSONSource({ data: geoJSON });
 
   
   map.addSource('markers', markers);
-  map.flyTo(point, 13, 0, {duration:1000})
+  // if (geoJSON.features.length < 2){
+    map.flyTo(point, 13, 0, {duration:1000})
+  // }
+  // else{
+  //   geoJSON
+  //   // map.fitBounds(
+  //   //   [
+  //   //     [Math.min(geoJSON.features[0].geometry.coordinates[1],geoJSON.features[1].geometry.coordinates[1]),
+  //   //     Math.min(geoJSON.features[0].geometry.coordinates[0], geoJSON.features[1].geometry.coordinates[0])],
+  //   //     [Math.max(geoJSON.features[0].geometry.coordinates[1], geoJSON.features[1].geometry.coordinates[1]),
+  //   //     Math.max(geoJSON.features[0].geometry.coordinates[0], geoJSON.features[1].geometry.coordinates[0])]
+  //   //     ], {duration:1000})
+  //   map.setZoom(map.getZoom()-1)
+  // }
 }
 
 $(document).ready(function(){
@@ -260,6 +316,7 @@ map = new mapboxgl.Map({
   container: 'map', // container id
   style: style, //stylesheet location
   center: [33.7677129,-84.420604], // starting position
+  minZoom: 8,
   zoom: 11 // starting zoom
 });
 
@@ -521,7 +578,8 @@ function initializeForms(){
     if ($( "#planner-options-dest" ).val() == ''){
         $( "#planner-options-dest-latlng" ).val('');
     }
-    $('#train').parent().addClass('active')
+    $('.mode-option').removeClass('active');
+    $('#train').parent().addClass('active');
     $('.popover-dismiss').popover({
         container: 'body',
         html: true,
@@ -943,13 +1001,24 @@ function renderItinerary(idx,moveto){
         // map.addSource(name, route);
         
         $('#planner-leg-list').append(legItem(leg));
-
+        var bounds;
+        var max;
         if (index == itin.legs.length - 1){
           console.log("HERE!")
           $.each(lines, function(i, line){
+            
+            // if (typeof bounds == undefined){
+            //   console.log(line)
+            //   bounds = getBoundingBox(line);
+            // }
+            // else{
+            //   console.log(line)
+            //   bounds = maxBounds(bounds, getBoundingBox(line));
+            // }
             console.log(i)
             var route = new mapboxgl.GeoJSONSource({ data: line });
             map.addSource(i, route);
+            // map.fitBounds([[bounds.minLat, bounds.minLng],[bounds.maxLat, bounds.maxLng]])
           });
           
         }
@@ -1054,16 +1123,16 @@ function truncate(word, num){
   }
 }
 function submit(){
-  $.each(map.sources, function(key, val){
-    if (key !== "mapbox" && key !=="markers"){map.removeSource(key);}
-  });
+  // $.each(map.sources, function(key, val){
+  //   if (key !== "mapbox" && key !=="markers"){map.removeSource(key);}
+  // });
   $('#planner-options-submit').button('loading');
   hideForm();
   $('#planner-options-desc').html('');
   var plannerreq = makePlanRequest();
   var summary = $('<p></p>');
-  summary.append('<b>'+Locale.from+'</b> '+truncate(plannerreq.fromName, 54)+'</br>');
-  summary.append('<b>'+Locale.to+'</b> '+truncate(plannerreq.toName, 54));
+  summary.append('<b>'+Locale.from+'</b> '+truncate(plannerreq.fromName, 42)+'</br>');
+  summary.append('<b>'+Locale.to+'</b> '+truncate(plannerreq.toName, 42));
   $('#planner-options-desc').append(summary);
   $('#planner-options-desc').append('<p>'+getPrettyDate() +', '+getTime()+'</p>');
   if (parent && Modernizr.history){
@@ -1081,6 +1150,10 @@ function clearHash(){
     if (id !== 'mapbox'){
       map.removeSource(id);
     }
+    geoJSON = {
+    "type": "FeatureCollection",
+    "features": [
+    ]};
     initializeForms();
     $( "#planner-options-from" ).val('');
     $( "#planner-options-dest" ).val('');
