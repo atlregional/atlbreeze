@@ -4,6 +4,161 @@ title: Transfer
 category: 'transfer'
 ---
 <div class="row">
+        
+            <h3 class="text-center">Travelling from:</h3>
+            <div class="col-md-2 col-md-offset-2 col-sm-4 col-sm-offset-0 col-xs-6 col-xs-offset-3">
+                <h2>
+                    <select class="form-control operator-select" id="from-select">
+                      <option value="none">[Choose Provider]</option>
+                      <option value="marta">MARTA</option>
+                      <option value="grta">GRTA</option>
+                      <option value="gct">GCT</option>
+                      <option value="cct">CCT</option>
+                    </select>
+                </h2>
+                <h3 class="text-center">to:</h3>
+                <h2>
+                    <select class="form-control operator-select " id="to-select">
+                      <option value="none">[Choose Provider]</option>
+                      <option value="marta">MARTA</option>
+                      <option value="grta">GRTA</option>
+                      <option value="gct">GCT</option>
+                      <option value="cct">CCT</option>
+                    </select>
+                </h2>
+            </div>
+        <div class="col-md-6 col-sm-8 col-xs-12 panel panel-default" style="height:200px;">      
+            <div class="transfer-blurb" id="none-to-none">
+            <h4 style="text-center">Choose two providers from the select boxes to the left to see transfer information.</h4>
+            </div>
+                <div class="hidden transfer-blurb" id="grta-to-marta">
+                <h4>GRTA Xpress to MARTA</h4>
+                <ul class="list-unstyled">
+                    <li>
+                        <span class="glyphicon glyphicon-ok"></span> <strong>FREE</strong> with Breeze Card</li>
+                    <li>
+                        <span class="glyphicon glyphicon-usd"></span> cash value on Breeze Card (if trip begins on GRTA)</li>
+                    <li>
+                        <span class="glyphicon glyphicon-time"></span> valid for 3 hours from start of trip</li>
+                    <li>
+                        <span class="glyphicon glyphicon-dashboard"></span> 4 transfer limit</li>
+                </ul>
+                </div>
+
+                <div class="hidden transfer-blurb" id="marta-to-marta">
+                <h4>MARTA to MARTA</h4>
+                <ul class="list-unstyled">
+                    <li>
+                        <span class="glyphicon glyphicon-ok"></span> <strong>FREE</strong> with Breeze Card</li>
+                    <li>
+                        <span class="glyphicon glyphicon-usd"></span> MARTA fare product or cash value on Breeze Card</li>
+                    <li>
+                        <span class="glyphicon glyphicon-time"></span> valid for 3 hours from start of trip</li>
+                    <li>
+                        <span class="glyphicon glyphicon-dashboard"></span> 4 transfer limit</li>
+                </ul>
+                </div>
+
+                <div class="hidden transfer-blurb" id="gct-to-marta">
+                <h4>Gwinnett County Transit (GCT) to MARTA</h4>
+                <ul class="list-unstyled">
+                    <li>
+                        <span class="glyphicon glyphicon-ok"></span> <strong>FREE</strong> with Breeze Card</li>
+                    <li>
+                        <span class="glyphicon glyphicon-usd"></span> GCT fare product or cash value on Breeze Card (if trip begins on GCT)</li>
+                    <li>
+                        <span class="glyphicon glyphicon-arrow-up"></span> upcharges apply when transferring to a higher fare, e.g. from local to express bus</li>
+                    <li>
+                        <span class="glyphicon glyphicon-time"></span> valid for 1.5 hours from start of a trip</li>
+                    <li>
+                        <span class="glyphicon glyphicon-dashboard"></span> 3 transfer limit</li>
+                </ul>
+                </div>
+
+                <div class="hidden transfer-blurb" id="gct-to-gct">
+                <h4>GCT to GCT</h4>
+                <ul class="list-unstyled">
+                    <li>
+                        <span class="glyphicon glyphicon-ok"></span> <strong>FREE</strong> with Breeze Card</li>
+                    <li>
+                        <span class="glyphicon glyphicon-usd"></span> GCT fare product or cash value on Breeze Card</li>
+                    <li>
+                        <span class="glyphicon glyphicon-arrow-up"></span> upcharges apply when transferring to a higher fare, e.g. from local to express bus</li>
+                    <li>
+                        <span class="glyphicon glyphicon-time"></span> valid for 1.5 hours from start of a trip</li>
+                    <li>
+                        <span class="glyphicon glyphicon-dashboard"></span> 3 transfer limit</li>
+                </ul>
+                </div>
+
+                <div class="hidden transfer-blurb" id="cct-to-marta">
+                <h4>Cobb Community Transit (CCT) to MARTA</h4>
+                <ul class="list-unstyled">
+                    <li>
+                        <span class="glyphicon glyphicon-ok"></span> <strong>FREE</strong> with Breeze Card</li>
+                    <li>
+                        <span class="glyphicon glyphicon-usd"></span> CCT fare product or cash value on Breeze Card (if trip begins on CCT)</li>
+                    <li>
+                        <span class="glyphicon glyphicon-time"></span> valid for 3 hours from start of trip</li>
+                    <li>
+                        <span class="glyphicon glyphicon-dashboard"></span> 4 transfer limit</li>
+                </ul>
+                </div>
+
+                <div class="hidden transfer-blurb" id="cct-to-cct">
+                <h4>CCT to CCT</h4>
+                <ul class="list-unstyled">
+                    <li>
+                        <span class="glyphicon glyphicon-ok"></span> <strong>FREE</strong> with Breeze Card</li>
+                    <li>
+                        <span class="glyphicon glyphicon-usd"></span> CCT fare product or cash value on Breeze Card</li>
+                    <li>
+                        <span class="glyphicon glyphicon-time"></span> valid for 3 hours from start of trip</li>
+                    <li>
+                        <span class="glyphicon glyphicon-dashboard"></span> 4 transfer limit</li>
+                </ul>
+                </div>
+                
+                <div class="hidden transfer-blurb" id="marta-to-sub">
+                <h4>MARTA to any suburban/express transit provider</h4>
+                <ul class="list-unstyled">
+                    <li>
+                        <span class="glyphicon glyphicon-ok"></span> <strong>FREE</strong> with Breeze Card</li>
+                    <li>
+                        <span class="glyphicon glyphicon-usd"></span> MARTA fare product or cash value on Breeze Card (if trip begins on MARTA)</li>
+                    <li>
+                        <span class="glyphicon glyphicon-time"></span> valid for 3 hours from start of a trip</li>
+                    <li>
+                        <span class="glyphicon glyphicon-dashboard"></span> 4 transfer limit</li>
+                </ul>
+                </div>
+
+                
+                <div class="hidden transfer-blurb" id="sub-to-sub">
+                <h4>NO free transfers between GCT, CCT, and GRTA Xpress</h4>
+                <ul class="list-unstyled">
+                    <li>
+                        <span class="glyphicon glyphicon-remove"></span> 
+                        <strong>NOT FREE</strong>, even with Breeze Card</li>
+                    <li>
+                        <span class="glyphicon glyphicon-usd"></span> 
+                        <strong>must have both transit providers' fare products</strong> or enough stored cash value loaded to pay for each trip individually</li>
+                </ul>
+                </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-12">
+        <h2>Regional Transfer Policies</h2>
+
+        <p>
+            Your Breeze Card must have an operator-specific fare product or stored cash value in its purse to begin a trip. You may transfer for free to (or from) a MARTA rail/bus service from any of the suburban/express transit providers (GCT, CCT, or GRTA Xpress). However, regional transfer policies do not allow direct free transfers between the suburban/express transit providers. You must travel on MARTA directly before or after one of the suburan/express transit providers in order to collect a free transfer.
+        </p>
+        <p>
+            <strong>Note:</strong>If you do not have a Breeze Card, you will have to pay the full-priced fare for each transit service you board.</p>
+        
+<div class="row">
     <div class="col-md-6">
         <h2>Transfer Information</h2>
         <p>GRTA Xpress, CCT, and GCT all have connection points at major MARTA stations to allow convenient access for passengers to connect to/from MARTA's extensive rail and bus network.
@@ -170,83 +325,7 @@ category: 'transfer'
     </div>
 
 </div>
-<div class="row">
-    <div class="col-md-12">
-        <h2>Regional Transfer Policies</h2>
 
-        <p>
-            Your Breeze Card must have an operator-specific fare product or stored cash value in its purse to begin a trip. You may transfer for free to (or from) a MARTA rail/bus service from any of the suburban/express transit providers (GCT, CCT, or GRTA Xpress). However, regional transfer policies do not allow direct free transfers between the suburban/express transit providers. You must travel on MARTA directly before or after one of the suburan/express transit providers in order to collect a free transfer.
-        </p>
-        <p>
-            <strong>Note:</strong>If you do not have a Breeze Card, you will have to pay the full-priced fare for each transit service you board.</p>
-        <div class="row">
-            <div class="col-md-6">
-                <h3>Transfers to MARTA</h3>
-
-                <h4 id="from-grta">Free transfers from GRTA Xpress</h4>
-                <ul class="list-unstyled">
-                    <li>
-                        <span class="glyphicon glyphicon-ok"></span> allowed with Breeze Card</li>
-                    <li>
-                        <span class="glyphicon glyphicon-usd"></span> must have stored cash value loaded on Breeze Card (if beginning trip on a GRTA bus)</li>
-                    <li>
-                        <span class="glyphicon glyphicon-time"></span> valid for 3 hours from start of trip</li>
-                    <li>
-                        <span class="glyphicon glyphicon-dashboard"></span> 4 transfer limit</li>
-                </ul>
-
-                <h4 id="from-gct">Free transfers from Gwinnett County Transit (GCT)</h4>
-                <ul class="list-unstyled">
-                    <li>
-                        <span class="glyphicon glyphicon-ok"></span> allowed with Breeze Card</li>
-                    <li>
-                        <span class="glyphicon glyphicon-usd"></span> must have either a GCT fare product or stored cash value loaded on Breeze Card (if beginning trip on a GCT bus)</li>
-                    <li>
-                        <span class="glyphicon glyphicon-arrow-up"></span> upcharges apply when transferring to a higher fare service, for example from local bus to express bus</li>
-                    <li>
-                        <span class="glyphicon glyphicon-time"></span> valid for 1.5 hours from start of a trip</li>
-                    <li>
-                        <span class="glyphicon glyphicon-dashboard"></span> 3 transfer limit</li>
-                </ul>
-
-                <h4 id="from-cct">Free transfers from Cobb Community Transit (CCT)</h4>
-                <ul class="list-unstyled">
-                    <li>
-                        <span class="glyphicon glyphicon-ok"></span> allowed with Breeze Card</li>
-                    <li>
-                        <span class="glyphicon glyphicon-usd"></span> must have either a CCT fare product or stored cash value loaded on Breeze Card (if beginning trip on a CCT bus)</li>
-                    <li>
-                        <span class="glyphicon glyphicon-time"></span> valid for 3 hours from start of trip</li>
-                    <li>
-                        <span class="glyphicon glyphicon-dashboard"></span> 4 transfer limit</li>
-                </ul>
-            </div>
-            <div class="col-md-6">
-                <h3 id="from-marta">Transfers from MARTA</h3>
-                <h4>Free transfers to any suburban/express transit provider</h4>
-                <ul class="list-unstyled">
-                    <li>
-                        <span class="glyphicon glyphicon-ok"></span> allowed with Breeze Card</li>
-                    <li>
-                        <span class="glyphicon glyphicon-usd"></span> must have either a MARTA fare product or stored cash value loaded on Breeze Card (if beginning trip on a MARTA train/bus)</li>
-                    <li>
-                        <span class="glyphicon glyphicon-time"></span> valid for 3 hours from start of a trip</li>
-                    <li>
-                        <span class="glyphicon glyphicon-dashboard"></span> 4 transfer limit</li>
-                </ul>
-
-                <h3>Transfers Between suburban/express transit providers</h3>
-                <h4 id="sub-exp">NO free transfers between GCT, CCT, and GRTA Xpress</h4>
-                <ul class="list-unstyled">
-                    <li>
-                        <span class="glyphicon glyphicon-remove"></span> 
-                        <strong>not allowed</strong>, even with Breeze Card</li>
-                    <li>
-                        <span class="glyphicon glyphicon-usd"></span> 
-                        <strong>must have both transit providers' fare products</strong>or enough stored cash value loaded to pay for each trip individually</li>
-                </ul>
-            </div>
-        </div>
         <div class="row">
             <h2>Transfer FAQs</h2>
             <p>
@@ -271,3 +350,25 @@ category: 'transfer'
         </div>
     </div>
 </div>
+<script type="text/javascript">
+    $('.operator-select').on('change', function(){
+        var from = $('#from-select').val();
+        var to = $('#to-select').val();
+        if (from !== "none" && to !== "none"){
+            if (to !== "marta" && to !== "none" && to !== from){
+                to = 'sub';
+                if (from !== 'marta' && from !== "none"){
+                    from = 'sub'
+                }
+            }
+            var id = '#' + from + '-to-' + to;
+            console.log(id)
+            $('.transfer-blurb').addClass('hidden');
+            $(id).removeClass('hidden');
+        }
+        else if (from !== "none" || to !== "none"){
+            $('.transfer-blurb').addClass('hidden');
+            $('#none-to-none').removeClass('hidden');
+        }
+    })
+</script>
