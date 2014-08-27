@@ -275,7 +275,7 @@ map = new mapboxgl.Map({
     autoOpen: false,
     position: { my: "center", at: "left top+130", of: window },
     dialogClass: "no-close noTitleStuff transparent-bg",
-    width: 420,
+    width: 320,
     maxHeight: 600,
     // minHeight: 233,
     resizable: false,
