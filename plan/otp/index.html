@@ -10,7 +10,7 @@ category: 'plan'
     <title></title>
     <meta name='viewport' content='initial-scale=1,maximum-scale=1,user-scalable=no' />
     <script src='https://api.tiles.mapbox.com/mapbox-gl-js/v0.2.2/mapbox-gl.js'></script>
-    <link  rel="stylesheet" href="jquery-ui-bootstrap/assets/css/bootstrap.min.css"></link>
+    <link  rel="stylesheet" href="http://getbootstrap.com/dist/css/bootstrap.min.css"></link>
     <script type="text/javascript" src="jquery-ui-bootstrap/assets/js/vendor/jquery-1.9.1.min.js"></script>
     <link rel="stylesheet" href="css/custom-theme/jquery-ui-1.10.3.custom.css"></link>
     <link rel="stylesheet" href="css/custom-theme/jquery-ui-1.10.3.ie.css"></link>
@@ -92,8 +92,27 @@ category: 'plan'
             <div class="col-md-12">
                <button type="button" class="btn btn-danger" onclick="window.location = window.location.pathname;"><span class="glyphicon glyphicon-remove"></span></button>
                <button type="button" class="btn btn-default" onclick="showForm()">Back</button>
-              <button type="button" class="btn btn-info" onclick="submit()">Plan</button>
-              
+              <button type="button" class="btn btn-info" id="plan-trip" onclick="submit()">Plan</button>
+              <div class="btn-group" data-toggle="buttons">
+                <label class="btn btn-sm btn-default mode-option">
+                  <input type="radio" name="mode-select" value="TRANSIT,WALK" id="train" checked><img src="images/Train.svg" width="31" height="27">
+                </label>
+                <label class="btn btn-sm btn-default mode-option">
+                  <input type="radio" name="mode-select" value="BUS,WALK" id="bus"><img src="images/Bus.svg" width="31" height="27"><!-- <span class="glyphicon svg-icon-bus"></span> -->
+                </label>
+                <label class="btn btn-sm btn-default mode-option">
+                  <input type="radio" name="mode-select" value="BICYCLE" id="bike"><img src="images/Bike.svg" width="31" height="27">
+                </label>
+                <label class="btn btn-sm btn-default mode-option">
+                  <input type="radio" name="mode-select" value="CAR" id="car"><img src="images/Car.svg" width="31" height="27">
+                </label>
+                <label class="btn btn-sm btn-default mode-option">
+                  <input type="radio" name="mode-select" value="WALK" id="pedestrian"><img src="images/Pedestrian.svg" width="31" height="27">
+                </label>
+                <label class="btn btn-sm btn-default mode-option popover-dismiss" data-toggle="popover" title="Looking for specialized services?">
+                  <input type="radio" name="mode-select" value="" id="specialized"><img src="images/Specialized.svg" width="31" height="27">
+                </label>
+              </div>
             </div>
           </div>
   </div>

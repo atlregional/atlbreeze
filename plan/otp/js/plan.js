@@ -5,6 +5,11 @@ var geoJSON = {
     "features": [
     ]};
 
+    //// Code doesn't work!
+    // $(document).on('change', 'input:radio[name=mode-select]', function (event) {
+    //     alert("click fired");
+    // });
+
 function mapClick(e){
   console.log(e)
   var point = map.unproject(e.point)
@@ -412,7 +417,7 @@ jQuery.unparam = function (value) {
     return params;
 };
 
-var currentTime = new Date();
+var currentTime = moment();
 
 var bag42 = function( request, response ) {
   $.ajax({
@@ -486,8 +491,8 @@ var nominatim_geocoder = function(request, response) {
 
       response( $.map( data, function( item ) {
       return {
-        label: item.display_name,
-        value: item.display_name,
+        label: item.display_name.split(', Georgia, United States of America')[0],
+        value: item.display_name.split(', Georgia, United States of America')[0],
         latlng: item.lat+','+item.lon
         }
       }));
@@ -512,6 +517,15 @@ function initializeForms(){
     if ($( "#planner-options-dest" ).val() == ''){
         $( "#planner-options-dest-latlng" ).val('');
     }
+    $('#train').parent().addClass('active')
+    $('.popover-dismiss').popover({
+        container: 'body',
+        html: true,
+        content: '<p>ARC\'s <a target="_blank" href="http://oneclick-arc.camsys-apps.com/">One-Click</a> combines data from this trip planner with services like MARTA Mobility, veterans\' transport, and other on-demand services.</p><a target="_blank" href="http://oneclick-arc.camsys-apps.com/" type="button" class="center-block btn btn-primary">Visit the One-Click!</a>',
+        trigger: 'click',
+        title: ''
+    });
+
 }
 
 function validate(){
@@ -575,7 +589,7 @@ function validate(){
     }
     return valid;
 }
-
+var itinDialog;
 function hideForm(){
   $('.plannerpanel.planner-options').removeClass('planner-form').addClass('planner-summary');
   $('#planner-options-form').attr('aria-hidden',true);
@@ -585,7 +599,15 @@ function hideForm(){
   $('#planner-options-desc-row').removeClass('hidden');
   $('#planner-advice-container').show();
   // opens modal on map
-  $('.planner-advice-modal').dialog(itinOpt).dialog('open');
+  if (typeof itinDialog == 'undefined'){
+    itinDialog = $('.planner-advice-modal').dialog(itinOpt).dialog('open');
+
+  }
+  else{
+    if (!$('.planner-advice-modal').dialog('isOpen')){
+      itinDialog = $('.planner-advice-modal').dialog(itinOpt).dialog('open');
+    }
+  }
   $('#planner-advice-container').attr('aria-hidden',false);
   $('#planner-advice-container').removeClass('hidden');
 }
@@ -610,6 +632,7 @@ function showForm(){
 
 function getPrettyDate(){
    var date = getDate().split('-');
+   console.log(date)
    date = new Date(date[0],date[1]-1,date[2]);
    console.log(Locale.days[date.getDay()])
    return Locale.days[date.getDay()] + ' ' + Locale.months[date.getMonth()] + ' ' + date.getDate();
@@ -660,7 +683,6 @@ function earlierAdvice(){
   console.log(minEpoch);
   plannerreq.date = epochtoIS08601date(minEpoch);
   plannerreq.time = epochtoIS08601time(minEpoch);
-
   var url = planningserver + jQuery.param(plannerreq);
   $.ajax({
       url: url,
@@ -769,22 +791,31 @@ function legItem(leg){
     
 
     console.log(leg)
-    if (leg.mode == 'WALK'){
+    if (leg.mode == 'WALK' || leg.mode == 'CAR' || leg.mode == 'BICYCLE'){
         if (leg.from.name == leg.to.name){
             return;
         }
-        legItem.append('<div class="list-group-item-heading"><h4 class="leg-header"><b>'+Locale.walk+'</b></h4></div>');
+        if (leg.mode == 'CAR'){
+          leg.mode = 'Drive';
+        }
+        else if (leg.mode == 'BICYCLE'){
+          leg.mode = 'Bike';
+        }
+        legItem.append('<div class="list-group-item-heading"><h4 class="leg-header"><b>'+toTitleCase(leg.mode)+'</b></h4></div>');
     } else {
       var headsign = leg.routeLongName;
       if (leg.headsign !== null)
-        headsign = leg.headsign;
-      var headsignParts = headsign.split(" ")
+        headsign = toTitleCase(leg.headsign);
+      else{
+        headsign = "";
+      }
+      var headsignParts = headsign ? headsign.split(" ") : ""
       if (headsignParts[0] === leg.route || headsignParts[0] === "MARTA"){
         headsign = headsign.slice(headsignParts[0].length, headsign.length)
       }
-      legItem.append('<div class="list-group-item-heading"><h4 class="leg-header"><b>'+leg.route+'</b> '+toTitleCase(headsign)+'<span class="leg-header-agency-name"><small>'+leg.agencyId+'</small></span></h4>');
+      legItem.append('<div class="list-group-item-heading"><h4 class="leg-header"><b>'+leg.route+'</b> '+headsign+'<span class="leg-header-agency-name"><small>'+leg.agencyId+'</small></span></h4>');
     }
-    var startTime = timeFromEpoch(leg.startTime-(leg.departureDelay ? leg.departureDelay : 0)*1000);
+    var startTime = moment(leg.startTime-(leg.departureDelay ? leg.departureDelay : 0)).format("hh:mm a");
     var delayMin = (leg.departureDelay/60)|0;
     if ((leg.departureDelay%60)>=30){
         delayMin += 1;
@@ -797,7 +828,7 @@ function legItem(leg){
         startTime += '<span class="ontime"> ✓</span>';
     }
 
-    var endTime = timeFromEpoch(leg.endTime-(leg.arrivalDelay ? leg.arrivalDelay : 0)*1000);
+    var endTime = moment(leg.endTime-(leg.arrivalDelay ? leg.arrivalDelay : 0)).format("hh:mm a");
     var delayMin = (leg.arrivalDelay/60)|0;
     if ((leg.arrivalDelay%60)>=30){
         delayMin += 1;
@@ -982,6 +1013,7 @@ function makePlanRequest(){
   plannerreq.fromName = $('#planner-options-from').val();
   plannerreq.toPlace = $('#planner-options-dest-latlng').val();
   plannerreq.toName = $('#planner-options-dest').val();
+  plannerreq.mode = $('input[name=mode-select]:checked').val()
   plannerreq.time = getTime();
   plannerreq.date = getDate();
   plannerreq.arriveBy = false;
@@ -1013,6 +1045,9 @@ function submit(){
     history.pushState(plannerreq, document.title, window.location.href);
     planItinerary(plannerreq);
   }
+  // $('#planner-options-desc').children()[0].click(function(){
+  //   showForm();
+  // });
 }
 
 function restoreFromHash(){
@@ -1034,6 +1069,10 @@ function restoreFromHash(){
     }
     if ('toName' in plannerreq){
         $('#planner-options-dest').val(plannerreq['toName']);
+    }
+    if ('mode' in plannerreq){
+        $('#train').parent().removeClass('active')
+        $('input[type=radio][value="' + plannerreq.mode + '"]').prop('checked', true).parent().addClass('active');
     }
     if ('toPlace' in plannerreq){
         $('#planner-options-dest-latlng').val(plannerreq['toPlace']);
@@ -1063,19 +1102,21 @@ function setupSubmit(){
        if (validate()){submit();}
     });
 };
-
+var input;
 function setTime(iso8601){
-    if(Modernizr.inputtypes.time){
-        $('#planner-options-time').val(iso8601.slice(0,5));
-    }else{
-        var val = iso8601.split('%3A');
-        var secs = parseInt(val[0])*60*60+parseInt(val[1])*60;
-        var hours = String(Math.floor(secs / (60 * 60)) % 24);
-        var divisor_for_minutes = secs % (60 * 60);
-        var minutes = String(Math.floor(divisor_for_minutes / 60));
-        var time = hours.lpad('0',2)+':'+minutes.lpad('0',2);
-        $('#planner-options-time').val(time);
-    }
+    // if(Modernizr.inputtypes.time){
+    //     $('#planner-options-time').val(iso8601.slice(0,5));
+    // }else{
+      console.log(iso8601)
+         input = moment(iso8601, "hh:mm a");
+        // var secs = parseInt(val[0])*60*60+parseInt(val[1])*60;
+        // var hours = String(Math.floor(secs / (60 * 60)) % 24);
+        // var divisor_for_minutes = secs % (60 * 60);
+        // var minutes = String(Math.floor(divisor_for_minutes / 60));
+        console.log(input.format("HH:mm"))
+
+        $('#planner-options-time').val(input.format("HH:mm"));
+    // }
 }
 
 
@@ -1084,9 +1125,9 @@ function setupDatetime(){
         $('#planner-options-timeformat').hide();
         $('#planner-options-timeformat').attr('aria-hidden',true);
     }
-    setTime(String(currentTime.getHours()).lpad('0',2)+':'+String(currentTime.getMinutes()).lpad('0',2));
+    setTime(currentTime);
     function pad(n) { return n < 10 ? '0' + n : n }
-    var date = currentTime.getFullYear() + '-' + pad(currentTime.getMonth() + 1) + '-' + pad(currentTime.getDate());
+    var date = currentTime.year() + '-' + pad(currentTime.month() + 1) + '-' + pad(currentTime.date());
     setDate(date);
     $("#planner-options-date").datepicker( {
        dateFormat: Locale.dateFormat,
@@ -1113,61 +1154,42 @@ function setupDatetime(){
 
 function setDate(iso8601){
     parts = iso8601.split('-');
-    var d = new Date(parts[0],parseInt(parts[1])-1,parts[2]);
-    $('#planner-options-date').val(String((d.getMonth()+1)).lpad('0',2) + '-' + String(d.getDate()).lpad('0',2) + '-' + String(d.getFullYear()));
+    var d = moment(iso8601);
+    $('#planner-options-date').val(d.format('MM-DD-YYYY'));
 }
 
 function getDate(){
-    var elements = $('#planner-options-date').val().split('-');
-    var month = null;
-    var day = null;
-    var year = String(currentTime.getFullYear());
-    if (elements.length == 3){
-      if (elements[2].length == 2){
-        year = year.slice(0,2) + elements[2];
-      }else if (elements[2].length == 4){
-        year = elements[2];
-      }
-      if (parseInt(year) < 2013){
-        return null;
-      }
-    }
-    if (parseInt(elements[0]) >= 1 && parseInt(elements[0]) <= 12){
-      month = elements[0];
-    }else{
-      return null;
-    }
-    if (parseInt(elements[1]) >= 1 && parseInt(elements[1]) <= 31){
-      day = elements[1];
-    }else{
-      return null;
-    }
+    return moment($('#planner-options-date').val()).format("YYYY-MM-DD");
+    console.log(elements)
+    var month = currentTime.day();
+    var day = currentTime.month();
+    var year = String(currentTime.year());
     setDate(year+'-'+month+'-'+day);
     return year+'-'+month+'-'+day;
 }
 
 function getTime(){
-    if(Modernizr.inputtypes.time){
-        var time = moment($('#planner-options-time').val(), "hh:mm");
-        return time.format(Locale.timeFormat)
-    } else {
-        var val = $('#planner-options-time').val().split(':');
-        if (val.length == 1 && val[0].length <= 2 && !isNaN(parseInt(val[0]))){
-            var hours = val[0];
-            var time = hours.lpad('0',2)+':00';
-            $('#planner-options-time').val(time);
-            return time;
-        }else if (val.length == 2 && !isNaN(parseInt(val[0])) && !isNaN(parseInt(val[1]))){
-            var secs = parseInt(val[0])*60*60+parseInt(val[1])*60;
-            var hours = String(Math.floor(secs / (60 * 60)) % 24);
-            var divisor_for_minutes = secs % (60 * 60);
-            var minutes = String(Math.floor(divisor_for_minutes / 60));
-            var time = hours.lpad('0',2)+':'+minutes.lpad('0',2);
-            $('#planner-options-time').val(time);
-            return time;
-        }
-        return null;
-    }
+    // if(Modernizr.inputtypes.time){
+        var time = moment($('#planner-options-time').val(), "HH:mm");
+        return time.format("hh:mm a")
+    // } else {
+    //     var val = $('#planner-options-time').val().split(':');
+    //     if (val.length == 1 && val[0].length <= 2 && !isNaN(parseInt(val[0]))){
+    //         var hours = val[0];
+    //         var time = hours.lpad('0',2)+':00';
+    //         $('#planner-options-time').val(time);
+    //         return time;
+    //     }else if (val.length == 2 && !isNaN(parseInt(val[0])) && !isNaN(parseInt(val[1]))){
+    //         var secs = parseInt(val[0])*60*60+parseInt(val[1])*60;
+    //         var hours = String(Math.floor(secs / (60 * 60)) % 24);
+    //         var divisor_for_minutes = secs % (60 * 60);
+    //         var minutes = String(Math.floor(divisor_for_minutes / 60));
+    //         var time = hours.lpad('0',2)+':'+minutes.lpad('0',2);
+    //         $('#planner-options-time').val(time);
+    //         return time;
+    //     }
+    //     return null;
+    // }
 }
 
 function setupAutoComplete(){
