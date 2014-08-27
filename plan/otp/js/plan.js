@@ -275,7 +275,8 @@ map = new mapboxgl.Map({
     autoOpen: false,
     position: { my: "center", at: "left top+130", of: window },
     dialogClass: "no-close noTitleStuff transparent-bg",
-    width: 400,
+    width: 420,
+    maxHeight: 600,
     // minHeight: 233,
     resizable: false,
     // buttons: [
@@ -521,10 +522,14 @@ function initializeForms(){
     $('.popover-dismiss').popover({
         container: 'body',
         html: true,
-        content: '<p>ARC\'s <a target="_blank" href="http://oneclick-arc.camsys-apps.com/">One-Click</a> combines data from this trip planner with services like MARTA Mobility, veterans\' transport, and other on-demand services.</p><a target="_blank" href="http://oneclick-arc.camsys-apps.com/" type="button" class="center-block btn btn-primary">Visit the One-Click!</a>',
+        content: '<p>ARC\'s <a target="_blank" href="http://oneclick-arc.camsys-apps.com/">One-Click</a> combines data from this trip planner with services like <strong>MARTA Mobility</strong>, transport for veterans and disabled persons, and other on-demand services.</p><a target="_blank" href="http://oneclick-arc.camsys-apps.com/" type="button" class="center-block btn btn-primary">Visit the One-Click!</a>',
         trigger: 'click',
-        title: ''
+        title: 'Looking for specialized services?' + '<button type="button" onclick="$(\'.popover-dismiss\').popover(\'hide\');" class="close">&times;</button>'
     });
+    $('.close').trigger('click', function(e){
+        $(".popover-dismiss").popover("hide");
+    });
+
 
 }
 
@@ -1036,8 +1041,8 @@ function submit(){
   $('#planner-options-desc').html('');
   var plannerreq = makePlanRequest();
   var summary = $('<p></p>');
-  summary.append('<b>'+Locale.from+'</b> '+truncate(plannerreq.fromName, 60)+'</br>');
-  summary.append('<b>'+Locale.to+'</b> '+truncate(plannerreq.toName, 60));
+  summary.append('<b>'+Locale.from+'</b> '+truncate(plannerreq.fromName, 54)+'</br>');
+  summary.append('<b>'+Locale.to+'</b> '+truncate(plannerreq.toName, 54));
   $('#planner-options-desc').append(summary);
   $('#planner-options-desc').append('<p>'+getPrettyDate() +', '+getTime()+'</p>');
   if (parent && Modernizr.history){
@@ -1221,34 +1226,6 @@ function setupAutoComplete(){
         //         ui.content[0].label.toLowerCase().indexOf( $( "#planner-options-from" ).val().toLowerCase() ) === 0 ) {
         //       $( "#planner-options-from" ).val( ui.content[0].label );
         //       $( "#planner-options-from-latlng" ).val( ui.content[0].latlng );
-        //    }
-        // }
-    });
-    $( "#planner-options-via" ).autocomplete({
-        autoFocus: true,
-        minLength: 3,
-        //appendTo: "#planner-options-via-autocompletecontainer",
-        messages : Locale.autocompleteMessages,
-        source: Geocoder.geocoder,
-        search: function( event, ui ) {
-            $( "#planner-options-from-latlng" ).val( "" );
-        },
-        focus: function( event, ui ) {
-            //$( "#planner-options-via" ).val( ui.item.label );
-            //$( "#planner-options-via-latlng" ).val( ui.item.latlng );
-            return false;
-        },
-        select: function( event, ui ) {
-            $( "#planner-options-via" ).val( ui.item.label );
-            $( "#planner-options-via-latlng" ).val( ui.item.latlng );
-            return false;
-        }
-        // ,
-        // response: function( event, ui ) {
-        //    if ( ui.content.length === 1 &&
-        //         ui.content[0].label.toLowerCase().indexOf( $( "#planner-options-via" ).val().toLowerCase() ) === 0 ) {
-        //       $( "#planner-options-via" ).val( ui.content[0].label );
-        //       $( "#planner-options-via-latlng" ).val( ui.content[0].latlng );
         //    }
         // }
     });

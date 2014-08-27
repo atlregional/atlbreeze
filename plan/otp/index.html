@@ -32,7 +32,7 @@ category: 'plan'
 <body>
 
 <div id='map'></div>
-  <div id="modal-simple">
+  <div id="modal-simple" style="overflow:hidden;">
   <div id="planner-options-desc-row">
     <div id="planner-options-desc"></div>
   </div>
@@ -52,7 +52,7 @@ category: 'plan'
     </form> -->
 
     <form role="form" class="planner-options-form validateDontSubmit" id="planner-options-form">
-          <div class="input-group input-group-sm planner-options-inputgroup-from" id="planner-options-inputgroup-from">
+          <div class="input-group input-group-sm col-md-10 planner-options-inputgroup-from" id="planner-options-inputgroup-from">
             <label class="input-group-addon planner-options-input-addon required label-from" for="planner-options-from"><span class="glyphicon glyphicon-play-circle"></span></label>
             <input id="planner-options-from" type="text" title="From" aria-required="true" class="form-control" placeholder="Train station, bus stop, or address" x-webkit-speech="x-webkit-speech" required="required" />
             <input id="planner-options-from-latlng" type="hidden" />
@@ -63,7 +63,7 @@ category: 'plan'
             <div id="planner-options-via-autocompletecontainer"></div>
             <input id="planner-options-via-latlng" type="hidden" />
           </div>
-          <div class="input-group input-group-sm planner-options-inputgroup-dest" id="planner-options-inputgroup-dest">
+          <div class="input-group input-group-sm col-md-10 planner-options-inputgroup-dest" id="planner-options-inputgroup-dest">
             <label class="input-group-addon planner-options-input-addon required label-dest" for="planner-options-dest"><span class="glyphicon glyphicon-record"></span></label>
             <input id="planner-options-dest" type="text" title="To" aria-required="true" class="form-control" placeholder="Train station, bus stop, or address" x-webkit-speech="x-webkit-speech" required="required" />
             <input id="planner-options-dest-latlng" type="hidden" />
@@ -95,10 +95,10 @@ category: 'plan'
               <button type="button" class="btn btn-info" id="plan-trip" onclick="submit()">Plan</button>
               <div class="btn-group" data-toggle="buttons">
                 <label class="btn btn-sm btn-default mode-option">
-                  <input type="radio" name="mode-select" value="TRANSIT,WALK" id="train" checked><img src="images/Train.svg" width="31" height="27">
+                  <input type="radio" name="mode-select" value="TRAINISH,WALK" id="train" checked><img src="images/Train.svg" width="31" height="27">
                 </label>
                 <label class="btn btn-sm btn-default mode-option">
-                  <input type="radio" name="mode-select" value="BUS,WALK" id="bus"><img src="images/Bus.svg" width="31" height="27"><!-- <span class="glyphicon svg-icon-bus"></span> -->
+                  <input type="radio" name="mode-select" value="TRANSIT,WALK" id="bus"><img src="images/Bus.svg" width="31" height="27"><!-- <span class="glyphicon svg-icon-bus"></span> -->
                 </label>
                 <label class="btn btn-sm btn-default mode-option">
                   <input type="radio" name="mode-select" value="BICYCLE" id="bike"><img src="images/Bike.svg" width="31" height="27">
@@ -109,15 +109,13 @@ category: 'plan'
                 <label class="btn btn-sm btn-default mode-option">
                   <input type="radio" name="mode-select" value="WALK" id="pedestrian"><img src="images/Pedestrian.svg" width="31" height="27">
                 </label>
-                <label class="btn btn-sm btn-default mode-option popover-dismiss" data-toggle="popover" title="Looking for specialized services?">
+                <label class="btn btn-sm btn-default mode-option popover-dismiss" data-toggle="popover">
                   <input type="radio" name="mode-select" value="" id="specialized"><img src="images/Specialized.svg" width="31" height="27">
                 </label>
               </div>
             </div>
           </div>
-  </div>
-
-  <div class="planner-advice-modal hidden" id="planner-advice-container" aria-hidden="true" style="display: none;">
+          <div class=" hidden" style="max-height:350px; overflow: scroll; overflow-x: hidden;" id="planner-advice-container" aria-hidden="true" style="display: none;">
                     <div class="row">
                       <div class="hidden col-xs-3 col-sm-3 col-md-3 col-lg-3 hidden-print">
                         <div class="btn-group-vertical" id="planner-advice-list" data-toggle="buttons">
@@ -129,5 +127,8 @@ category: 'plan'
                       </div>
                     </div>
                   </div>
+  </div>
+
+  
 </body>
 </html>
