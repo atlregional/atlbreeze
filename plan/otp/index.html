@@ -52,7 +52,7 @@ category: 'plan'
     </form> -->
 
     <form role="form" class="planner-options-form validateDontSubmit" id="planner-options-form">
-          <div class="input-group input-group-sm col-md-10 planner-options-inputgroup-from" id="planner-options-inputgroup-from">
+          <div class="input-group input-group-sm col-md-12 planner-options-inputgroup-from" id="planner-options-inputgroup-from">
             <label class="input-group-addon planner-options-input-addon required label-from" for="planner-options-from"><span class="glyphicon glyphicon-play-circle"></span></label>
             <input id="planner-options-from" type="text" title="From" aria-required="true" class="form-control" placeholder="Train station, bus stop, or address" x-webkit-speech="x-webkit-speech" required="required" />
             <input id="planner-options-from-latlng" type="hidden" />
@@ -63,20 +63,20 @@ category: 'plan'
             <div id="planner-options-via-autocompletecontainer"></div>
             <input id="planner-options-via-latlng" type="hidden" />
           </div>
-          <div class="input-group input-group-sm col-md-10 planner-options-inputgroup-dest" id="planner-options-inputgroup-dest">
+          <div class="input-group input-group-sm col-md-12 planner-options-inputgroup-dest" id="planner-options-inputgroup-dest">
             <label class="input-group-addon planner-options-input-addon required label-dest" for="planner-options-dest"><span class="glyphicon glyphicon-record"></span></label>
             <input id="planner-options-dest" type="text" title="To" aria-required="true" class="form-control" placeholder="Train station, bus stop, or address" x-webkit-speech="x-webkit-speech" required="required" />
             <input id="planner-options-dest-latlng" type="hidden" />
           </div>
           <div class="row">
-            <div class="col-xs-5 col-sm-5 col-md-5 col-lg-5">
+            <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
               <div class="input-group input-group-sm planner-options-dateinput" id="planner-options-inputgroup-time">
                 <label class="input-group-addon planner-options-input-addon label-time" for="planner-options-time"><span class="glyphicon glyphicon-time"></span></label>
                 <input id="planner-options-time" type="time" title="Time" aria-described-by="planner-options-timeformat" aria-required="true" class="form-control" required="required" />
                 <div class="input-group-addon planner-options-input-addon" id="planner-options-timeformat">h:mma</div>
               </div>
             </div>
-             <div class="col-xs-5 col-sm-5 col-md-5 col-lg-5">
+             <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
               <div class="input-group input-group-sm planner-options-dateinput" id="planner-options-inputgroup-date">
                 <label class="input-group-addon planner-options-input-addon label-date" for="planner-options-date"><span class="glyphicon glyphicon-calendar"></span></label>
                 <input id="planner-options-date" type="text" title="Date" aria-label="Datumkiezer, gebruik Ctrl en pijltjes om te navigeren" aria-required="true" class="form-control" required="required"  />
@@ -90,9 +90,9 @@ category: 'plan'
         </form>
         <div class="row">
             <div class="col-md-12">
-               <button type="button" class="btn btn-xs btn-danger" onclick="window.location = window.location.pathname;"><span class="glyphicon glyphicon-remove"></span></button>
-               <button type="button" class="btn btn-xs btn-default" onclick="showForm()">Back</button>
-              <button type="button" class="btn btn-xs btn-info" id="plan-trip" onclick="submit()">Plan</button>
+               <button type="button" class="btn btn-sm btn-danger" onclick="clearHash()"><span class="glyphicon glyphicon-remove"></span></button>
+               <button type="button" class="btn btn-sm btn-default" onclick="showForm()"><span class="glyphicon glyphicon-backward"></span></button>
+              <button type="button" class="btn btn-sm btn-info" id="plan-trip" onclick="submit()"><span class="glyphicon glyphicon-play"></span></button>
               <div class="btn-group" data-toggle="buttons">
                 <label class="btn btn-sm btn-default mode-option">
                   <input type="radio" name="mode-select" value="TRAINISH,WALK" id="train" checked><img src="images/Train.svg" width="26" height="27">

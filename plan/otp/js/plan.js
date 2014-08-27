@@ -1072,7 +1072,18 @@ function submit(){
   //   showForm();
   // });
 }
-
+function clearHash(){
+  history.pushState({id: "base"}, document.title, '/plan/otp/');
+  $.each(map.sources, function(id, source){
+    if (id !== 'mapbox'){
+      map.removeSource(id);
+    }
+    initializeForms();
+    $( "#planner-options-from" ).val('');
+    $( "#planner-options-dest" ).val('');
+    showForm();
+  })
+}
 function restoreFromHash(){
     var plannerreq = jQuery.unparam(window.location.hash);
     if ('time' in plannerreq){
