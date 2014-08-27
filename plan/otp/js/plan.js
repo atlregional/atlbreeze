@@ -602,19 +602,20 @@ function hideForm(){
   $('#planner-options-desc-row').show();
   $('#planner-options-desc-row').attr('aria-hidden',false);
   $('#planner-options-desc-row').removeClass('hidden');
-  $('#planner-advice-container').show();
+  showResults();
+  $('#hide-results').show();
   // opens modal on map
-  if (typeof itinDialog == 'undefined'){
-    itinDialog = $('.planner-advice-modal').dialog(itinOpt).dialog('open');
+  // if (typeof itinDialog == 'undefined'){
+  //   itinDialog = $('.planner-advice-modal').dialog(itinOpt).dialog('open');
 
-  }
-  else{
-    if (!$('.planner-advice-modal').dialog('isOpen')){
-      itinDialog = $('.planner-advice-modal').dialog(itinOpt).dialog('open');
-    }
-  }
-  $('#planner-advice-container').attr('aria-hidden',false);
-  $('#planner-advice-container').removeClass('hidden');
+  // }
+  // else{
+  //   if (!$('.planner-advice-modal').dialog('isOpen')){
+  //     itinDialog = $('.planner-advice-modal').dialog(itinOpt).dialog('open');
+  //   }
+  // }
+
+  $('#hide-results').removeClass('hidden');
 }
 
 function showForm(){
@@ -625,16 +626,34 @@ function showForm(){
   if ($( ".planner-advice-modal" ).dialog()){
     $('.planner-advice-modal').dialog('close');
   }
-
+  hideResults();
   $('#planner-options-desc-row').attr('aria-hidden',true);
   $('#planner-options-desc-row').addClass('hidden');
+  $('#hide-results').hide();
+  $('#planner-options-submit').button('reset');
+}
+function hideResults(){
   $('#planner-advice-container').find('.alert').remove();
   $('#planner-advice-container').hide();
   $('#planner-advice-container').attr('aria-hidden',true);
   $('#planner-advice-container').addClass('hidden');
-  $('#planner-options-submit').button('reset');
 }
+function showResults(){
+  $('#planner-advice-container').show();
+  $('#planner-advice-container').attr('aria-hidden',false);
+  $('#planner-advice-container').removeClass('hidden');
+}
+function toggleResults(){
+  if (!$('#planner-options-desc-row').hasClass('hidden')){
+    if ($('#planner-advice-container').hasClass('hidden')){
+      showResults();
 
+    }
+    else{
+      hideResults();
+    }
+  }
+}
 function getPrettyDate(){
    var date = getDate().split('-');
    console.log(date)
@@ -670,7 +689,6 @@ function epochtoIS08601time(epoch){
   var time = d.getHours().toString().lpad('0',2)+':'+d.getMinutes().toString().lpad('0',2)+':'+d.getSeconds().toString().lpad('0',2);
   return time;
 }
-
 function earlierAdvice(){
   if (!itineraries){
      return false;
