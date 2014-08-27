@@ -1073,7 +1073,7 @@ function submit(){
   // });
 }
 function clearHash(){
-  history.pushState({id: "base"}, document.title, '/plan/otp/');
+  history.pushState({id: "base"}, document.title, '{{ site.baseurl }}/plan/otp/');
   $.each(map.sources, function(id, source){
     if (id !== 'mapbox'){
       map.removeSource(id);
