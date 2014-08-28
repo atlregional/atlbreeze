@@ -169,22 +169,7 @@ mapboxgl.util.getJSON('https://www.mapbox.com/mapbox-gl-styles/styles/bright-v4.
 
   
 
-  style.layers.push({
-    "id": "route",
-    "source": "route",
-    "render": {
-      "$type": "MultiLineString",
-      "line-join": "round",
-      "line-cap": "round"
-    },
-    "style": {
-      "line-color": "#888",
-      "line-dasharray":[10, 4],
-      "line-width": 5,
-      "line-opacity":.5
-    },
-    "type": "line"
-  },
+  style.layers.push(
   {
     "id": "RED",
     "source": "RED",
@@ -296,7 +281,24 @@ mapboxgl.util.getJSON('https://www.mapbox.com/mapbox-gl-styles/styles/bright-v4.
       "line-width": 5
     },
     "type": "line"
-  });
+  },
+  {
+    "id": "route",
+    "source": "route",
+    "render": {
+      "$type": "MultiLineString",
+      "line-join": "round",
+      "line-cap": "round"
+    },
+    "style": {
+      "line-color": "#888",
+      "line-dasharray":[10, 4],
+      "line-width": 5,
+      "line-opacity":.5
+    },
+    "type": "line"
+  }
+  );
 style.layers.push({
     "id": "markers",
     "source": "markers",
@@ -339,36 +341,6 @@ map = new mapboxgl.Map({
     maxHeight: 600,
     // minHeight: 233,
     resizable: false,
-    // buttons: [
-    //     {
-    //         text: "Clear",
-    //         click: function() { 
-    //           showForm();
-    //           window.location = window.location.pathname;
-    //         },
-    //         "class":"ui-button-danger"
-    //     },
-    //     {
-    //         text: "Back",
-    //         click: function() { 
-    //           showForm();
-    //         }        
-    //     },
-    //     // {
-    //     //     text: "other",
-    //     //     click: function() { 
-    //     //     },
-    //     //     "class":"ui-button-inverse"
-    //     // },
-    //     {
-    //         text: "Plan Trip!",
-    //         click: function() { 
-    //             submit();
-    //         },
-    //         "class":"ui-button-primary"
-    //     }
-        
-    // ],
     title: "Plan a trip"
 
   };
@@ -391,7 +363,7 @@ map = new mapboxgl.Map({
     title: "Trip Itinerary"
 
   };
-  $('#modal-simple').dialog(opt).dialog('open');
+  // $('#modal-simple').dialog(opt).dialog('open');
 
 });
 
@@ -657,13 +629,16 @@ function validate(){
 }
 var itinDialog;
 function hideForm(){
-  $('.plannerpanel.planner-options').removeClass('planner-form').addClass('planner-summary');
-  $('#planner-options-form').attr('aria-hidden',true);
-  $('#planner-options-form').hide();
-  $('#planner-options-desc-row').show();
-  $('#planner-options-desc-row').attr('aria-hidden',false);
-  $('#planner-options-desc-row').removeClass('hidden');
-  showResults();
+  // $('.plannerpanel.planner-options').removeClass('planner-form').addClass('planner-summary');
+  // $('#planner-options-form').attr('aria-hidden',true);
+  // $('#planner-options-form').hide();
+  // $('#planner-options-desc-row').show();
+  // $('#planner-options-desc-row').attr('aria-hidden',false);
+  // $('#planner-options-desc-row').removeClass('hidden');
+  // showResults();
+    $('#planner-advice-div').show();
+  $('#planner-advice-div').attr('aria-hidden',false);
+  $('#planner-advice-div').removeClass('hidden');
   $('#hide-results').show();
   // opens modal on map
   // if (typeof itinDialog == 'undefined'){
@@ -688,6 +663,10 @@ function showForm(){
     $('.planner-advice-modal').dialog('close');
   }
   hideResults();
+    $('#planner-advice-div').find('.alert').remove();
+  $('#planner-advice-div').hide();
+  $('#planner-advice-div').attr('aria-hidden',true);
+  $('#planner-advice-div').addClass('hidden');
   $('#planner-options-desc-row').attr('aria-hidden',true);
   $('#planner-options-desc-row').addClass('hidden');
   $('#hide-results').hide();
@@ -698,11 +677,13 @@ function hideResults(){
   $('#planner-advice-container').hide();
   $('#planner-advice-container').attr('aria-hidden',true);
   $('#planner-advice-container').addClass('hidden');
+
 }
 function showResults(){
   $('#planner-advice-container').show();
   $('#planner-advice-container').attr('aria-hidden',false);
   $('#planner-advice-container').removeClass('hidden');
+
 }
 function toggleResults(){
   if (!$('#planner-options-desc-row').hasClass('hidden')){
@@ -776,27 +757,19 @@ function earlierAdvice(){
         if (!('itineraries' in data.plan) || data.plan.itineraries.length == 0){
           return;
         }
-        var startDate = $('#planner-advice-list').find('.planner-advice-dateheader').first().html();
+        // var startDate = $('#planner-advice-list').find('.planner-advice-dateheader').first().html();
         $.each( data.plan.itineraries , function( index, itin ){
-            var prettyStartDate = prettyDateEpoch(itin.startTime);
-            if (startDate != prettyStartDate){
-                $('<div class="planner-advice-dateheader">'+prettyStartDate+'</div>').insertAfter('#planner-advice-earlier');
-                startDate = prettyStartDate;
-            }
-            itinButton(itin).insertAfter($('#planner-advice-list').find('.planner-advice-dateheader').first());
+            // var prettyStartDate = prettyDateEpoch(itin.startTime);
+            // if (startDate != prettyStartDate){
+            //     $('<div class="planner-advice-dateheader">'+prettyStartDate+'</div>').insertAfter('#planner-advice-earlier');
+            //     startDate = prettyStartDate;
+            // }
+            // itinButton(itin).insertAfter($('#planner-advice-list').find('.planner-advice-dateheader').first());
         });
         $('#planner-advice-earlier').button('reset');
       }
   });
   return false;
-}
-
-function itinButton(itin){
-    var itinButton = $('<button type="button" class="btn btn-default" onclick="renderItinerary('+itineraries.length+',true)"></button>');
-    itineraries.push(itin);
-    itinButton.append('<b>'+timeFromEpoch(itin.startTime)+'</b>  <span class="glyphicon glyphicon-arrow-right"></span> <b>'+timeFromEpoch(itin.endTime)+'</b>');
-    itinButton.append('<div>'+Locale.amountTransfers(itin.transfers)+'</div>');
-    return itinButton;
 }
 
 function laterAdvice(){
@@ -825,16 +798,16 @@ function laterAdvice(){
         if (!('itineraries' in data.plan) || data.plan.itineraries.length == 0){
             return;
         }
-        var startDate = $('#planner-advice-list').find('.planner-advice-dateheader').last().html();
+        // var startDate = $('#planner-advice-list').find('.planner-advice-dateheader').last().html();
         $.each( data.plan.itineraries , function( index, itin ){
-            var prettyStartDate = prettyDateEpoch(itin.startTime);
-            if (startDate != prettyStartDate){
-                $(('<div class="planner-advice-dateheader">'+prettyStartDate+'</div>')).insertAfter($('#planner-advice-list').find('.planner-advice-itinbutton').last());
-                itinButton(itin).insertAfter($('#planner-advice-list').find('.planner-advice-dateheader').last());
-                startDate = prettyStartDate;
-            }else{
-                itinButton(itin).insertAfter($('#planner-advice-list').find('.planner-advice-itinbutton').last());
-            }
+            // var prettyStartDate = prettyDateEpoch(itin.startTime);
+            // if (startDate != prettyStartDate){
+            //     // $(('<div class="planner-advice-dateheader">'+prettyStartDate+'</div>')).insertAfter($('#planner-advice-list').find('.planner-advice-itinbutton').last());
+            //     // itinButton(itin).insertAfter($('#planner-advice-list').find('.planner-advice-dateheader').last());
+            //     // startDate = prettyStartDate;
+            // }else{
+            //     itinButton(itin).insertAfter($('#planner-advice-list').find('.planner-advice-itinbutton').last());
+            // }
         });
         $('#planner-advice-later').button('reset');
       }
@@ -848,12 +821,8 @@ function prettyDateEpoch(epoch){
 }
 
 function timeFromEpoch(epoch){
-  var date = new Date(epoch);
-  var minutes = date.getMinutes();
-  if (date.getSeconds()>= 30){
-      minutes += 1;
-  }
-  return String(date.getHours()).lpad('0',2)+':'+String(minutes).lpad('0',2);
+  var date = moment(epoch);
+  return date.format('hh:mm a');
 }
 
 var itineraries = null;
@@ -943,6 +912,9 @@ function legItem(leg){
 }
 var lines;
 function renderItinerary(idx,moveto){
+  $.each(map.sources, function(key, val){
+    if (key !== "mapbox" && key !=="markers"){map.removeSource(key);}
+  });
     $('#planner-leg-list').html('');
     lines = {};
     var itin = itineraries[idx];
@@ -1023,21 +995,31 @@ function renderItinerary(idx,moveto){
           
         }
     });
-    if ( moveto && $(this).width() < 981 ) {
-        $('#planner-leg-list').ScrollTo({
-            duration: 500,
-            easing: 'linear'
-        });
-    }
+
     $('#planner-advice-list').find('.btn').removeClass('active');
     $(this).addClass('active');
 }
-
+$(document).on('ready', function(){
+      var win = $(this); //this = window
+      if (win.width() >= 750) { $('.planner-options-form').removeClass('form-inline'); }
+      else { $('.planner-options-form').addClass('form-inline'); }
+});
+$(window).on('resize', function(){
+      var win = $(this); //this = window
+      if (win.width() >= 750) { $('.planner-options-form').removeClass('form-inline'); }
+      else { $('.planner-options-form').addClass('form-inline'); }
+});
 function itinButton(itin){
-    var itinButton = $('<button type="button" class="btn btn-default planner-advice-itinbutton" onclick="renderItinerary('+itineraries.length+',true)"></button>');
+    var itinButton = $('<button type="button" class="btn btn-xs btn-default planner-advice-itinbutton" onclick="renderItinerary('+itineraries.length+',true)"></button>');
     itineraries.push(itin);
-    itinButton.append('<b>'+timeFromEpoch(itin.startTime)+'</b>  <span class="glyphicon glyphicon-arrow-right"></span> <b>'+timeFromEpoch(itin.endTime)+'</b>');
-    itinButton.append('<div>'+Locale.amountTransfers(itin.transfers)+'</div>');
+    var start = moment(itin.startTime)
+    var end = moment(itin.endTime)
+    var diff = end.diff(start, 'minutes')
+    var minutes = diff%60;
+    var hours = Math.floor(diff/60)
+    var diffDisplay = hours ? hours + ' hr ' + minutes + ' min' : minutes + ' min'
+    itinButton.append('<div class="text-left"><b>'+timeFromEpoch(itin.startTime)+'</b>  <span class="glyphicon glyphicon-arrow-right"></span> <b>'+timeFromEpoch(itin.endTime)+'</b></div>');
+    // itinButton.append('<div class="text-left">'+Locale.amountTransfers(itin.transfers)+ ' | ' + diffDisplay + '</div>');
     return itinButton;
 }
 
@@ -1068,11 +1050,11 @@ function planItinerary(plannerreq){
         var startDate = null;
         // $('#planner-advice-list').append('<button type="button" class="btn btn-primary" id="planner-advice-earlier" data-loading-text="'+Locale.loading+'" onclick="earlierAdvice()">'+Locale.earlier+'</button>');
         $.each( data.plan.itineraries , function( index, itin ){
-            var prettyStartDate = prettyDateEpoch(itin.startTime);
-            if (startDate != prettyStartDate){
-                $('#planner-advice-list').append('<div class="planner-advice-dateheader">'+prettyStartDate+'</div>');
-                startDate = prettyStartDate;
-            }
+            // var prettyStartDate = prettyDateEpoch(itin.startTime);
+            // if (startDate != prettyStartDate){
+            //     $('#planner-advice-list').append('<div class="planner-advice-dateheader">'+prettyStartDate+'</div>');
+            //     startDate = prettyStartDate;
+            // }
             $('#planner-advice-list').append(itinButton(itin));
         });
         // $('#planner-advice-list').append('<button type="button" class="btn btn-primary" id="planner-advice-later" data-loading-text="'+Locale.loading+'" onclick="laterAdvice()">'+Locale.later+'</button>');
@@ -1123,9 +1105,10 @@ function truncate(word, num){
   }
 }
 function submit(){
-  // $.each(map.sources, function(key, val){
-  //   if (key !== "mapbox" && key !=="markers"){map.removeSource(key);}
-  // });
+  // Remove lines when redrawing 
+  $.each(map.sources, function(key, val){
+    if (key !== "mapbox" && key !=="markers"){map.removeSource(key);}
+  });
   $('#planner-options-submit').button('loading');
   hideForm();
   $('#planner-options-desc').html('');
@@ -1157,6 +1140,7 @@ function clearHash(){
     initializeForms();
     $( "#planner-options-from" ).val('');
     $( "#planner-options-dest" ).val('');
+    $('#planner-advice-list').html('');
     showForm();
   })
 }

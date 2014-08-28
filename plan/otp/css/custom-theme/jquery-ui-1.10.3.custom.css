@@ -23,6 +23,17 @@ z-index: 10000;
 .mode-option{
 	padding: 0;
 }
+@media (max-width: 600px) {
+  .planner-options-inputgroup-dest.{
+  	width:20px !important;
+  }
+}
+
+@media (min-width: 600px) {
+  .planner-options-inputgroup-dest.{
+  	width:300px !important;
+  }
+}
 
 .svg-icon-pedestrian{
 	background-image: url(images/Pedestrian.svg);
