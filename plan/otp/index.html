@@ -33,24 +33,7 @@ category: 'plan'
 
 <div id='map'></div>
   <div class="row">
-  <div id="modal-simple" class="col-md-4 col-sm-6 col-xs-10" style="padding:5px; margin-left:15px; overflow:hidden;top:60px;-webkit-border-radius: 0px;-moz-border-radius: 0px;border-radius: 0px;background:rgba(255,255,255,1);-webkit-box-shadow: #B3B3B3 4px 4px 4px;-moz-box-shadow: #B3B3B3 4px 4px 4px; box-shadow: #B3B3B3 4px 4px 4px;">
-  <!-- <div id="planner-options-desc-row">
-    <div id="planner-options-desc" ></div>
-  </div> -->
-    <!-- <form class="form-horizontal" role="form">
-      <div class="form-group">
-        <label for="origin" class="col-sm-2 control-label">From</label>
-        <div class="col-sm-10">
-          <input type="origin" class="form-control" id="origin" placeholder="123 Main St">
-        </div>
-      </div>
-      <div class="form-group">
-        <label for="destination" class="col-sm-2 control-label">To</label>
-        <div class="col-sm-10">
-          <input type="destination" class="form-control" id="destination" placeholder="400 Peachtree St">
-        </div>
-      </div>
-    </form> -->
+  <div id="modal-simple" class="col-md-4 col-sm-6 col-xs-8" style="padding:5px; margin-left:15px; overflow:hidden;top:60px;-webkit-border-radius: 0px;-moz-border-radius: 0px;border-radius: 0px;background:rgba(255,255,255,1);-webkit-box-shadow: #B3B3B3 4px 4px 4px;-moz-box-shadow: #B3B3B3 4px 4px 4px; box-shadow: #B3B3B3 4px 4px 4px;">
     <form role="form" class="planner-options-form validateDontSubmit form-inline" id="planner-options-form">
       <div class="row">
           <div style="margin:0px;" class="form-group col-lg-12 col-md-12 col-sm-12 col-xs-6">
@@ -90,26 +73,25 @@ category: 'plan'
         </form>
         <div class="row">
             <div class="col-md-12">
-               <button type="button" class="btn btn-sm btn-danger" onclick="clearHash()"><span class="glyphicon glyphicon-remove"></span></button>
-               <!-- <button type="button" class="btn btn-sm btn-default" onclick="showForm()"><span class="glyphicon glyphicon-backward"></span></button> -->
-              <button type="button" class="btn btn-sm btn-info" id="plan-trip" onclick="submit()"><span class="glyphicon glyphicon-play"></span></button>
+               <button type="button" class="btn btn-xs btn-danger" onclick="clearHash()"><span class="glyphicon glyphicon-remove"></span></button>
+              <button type="button" class="btn btn-xs btn-info" id="plan-trip" onclick="submit()"><span class="glyphicon glyphicon-play"></span></button>
               <div class="btn-group" data-toggle="buttons">
-                <label class="btn btn-sm btn-default mode-option">
+                <label class="btn btn-xs btn-default mode-option">
                   <input type="radio" name="mode-select" value="TRANSIT,WALK" id="train" checked><img src="images/Train.svg" width="26" height="27">
                 </label>
-                <label class="btn btn-sm btn-default mode-option">
+                <label class="btn btn-xs btn-default mode-option">
                   <input type="radio" name="mode-select" value="BUS,WALK" id="bus"><img src="images/Bus.svg" width="26" height="27"><!-- <span class="glyphicon svg-icon-bus"></span> -->
                 </label>
-                <label class="btn btn-sm btn-default mode-option">
+                <label class="btn btn-xs btn-default mode-option">
                   <input type="radio" name="mode-select" value="BICYCLE" id="bike"><img src="images/Bike.svg" width="26" height="27">
                 </label>
-                <label class="btn btn-sm btn-default mode-option">
+                <label class="btn btn-xs btn-default mode-option">
                   <input type="radio" name="mode-select" value="CAR" id="car"><img src="images/Car.svg" width="26" height="27">
                 </label>
-                <label class="btn btn-sm btn-default mode-option">
+                <label class="btn btn-xs btn-default mode-option">
                   <input type="radio" name="mode-select" value="WALK" id="pedestrian"><img src="images/Pedestrian.svg" width="26" height="27">
                 </label>
-                <label class="btn btn-sm btn-default mode-option popover-dismiss" data-toggle="popover">
+                <label class="btn btn-xs btn-default mode-option popover-dismiss" data-toggle="popover">
                   <input type="radio" name="mode-select" value="" id="specialized"><img src="images/Specialized.svg" width="26" height="27">
                 </label>
               </div>
@@ -119,8 +101,10 @@ category: 'plan'
   </div>
 </div>
 <div class="row">
-  <div id="planner-advice-div" class="hidden col-md-4 col-sm-6 col-xs-10" style="padding:5px; margin-top:10px; margin-left:15px; overflow:hidden;top:60px;-webkit-border-radius: 4px;-moz-border-radius: 4px;border-radius: 4px;background:rgba(255,255,255,1);-webkit-box-shadow: #B3B3B3 4px 4px 4px;-moz-box-shadow: #B3B3B3 4px 4px 4px; box-shadow: #B3B3B3 4px 4px 4px;">
+  <div id="planner-advice-div" class="hidden col-md-4 col-sm-6 col-xs-8" style="padding:5px; margin-top:10px; margin-left:15px; overflow:hidden;top:60px;-webkit-border-radius: 4px;-moz-border-radius: 4px;border-radius: 4px;background:rgba(255,255,255,1);-webkit-box-shadow: #B3B3B3 4px 4px 4px;-moz-box-shadow: #B3B3B3 4px 4px 4px; box-shadow: #B3B3B3 4px 4px 4px;">
     <div class="btn-group-vertical btn-xs col-xs-12 col-sm-12 col-md-12 col-lg-12" id ="planner-advice-list" data-toggle="buttons"></div>
+            <button type="button" class="hidden btn btn-xs btn-default" onclick="toggleResults();" id="hide-results"><span class="glyphicon glyphicon-chevron-up"></span><span class="glyphicon glyphicon-chevron-down"></span></button>
+
         <div class="hidden col-md-12" style="max-height:350px; overflow: scroll; overflow-x: hidden;" id="planner-advice-container" aria-hidden="true" style="display: none;">
           <div class="row">
             <div class="clearfix visible-xs"></div>
@@ -129,7 +113,6 @@ category: 'plan'
             </div>
           </div>
         </div>
-        <button type="button" class="hidden btn btn-xs btn-default" onclick="toggleResults();" id="hide-results"><span class="glyphicon glyphicon-chevron-up"></span><span class="glyphicon glyphicon-chevron-down"></span></button>
   </div>
 </div>
   

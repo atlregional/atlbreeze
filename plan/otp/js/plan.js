@@ -1018,7 +1018,12 @@ function itinButton(itin){
     var minutes = diff%60;
     var hours = Math.floor(diff/60)
     var diffDisplay = hours ? hours + ' hr ' + minutes + ' min' : minutes + ' min'
-    itinButton.append('<div class="text-left"><b>'+timeFromEpoch(itin.startTime)+'</b>  <span class="glyphicon glyphicon-arrow-right"></span> <b>'+timeFromEpoch(itin.endTime)+'</b></div>');
+    var itinSummary = '';
+    $.each(itin.legs, function(i, leg){
+      var text = leg.mode == 'WALK' ? leg.mode : leg.agencyId
+      itinSummary += i == itin.legs.length - 1 ? text : text + '<span class="glyphicon glyphicon-arrow-right"></span>';
+    });
+    itinButton.append('<div class="text-left"><b>'+timeFromEpoch(itin.startTime)+'</b>  <span class="glyphicon glyphicon-arrow-right"></span> <b>'+timeFromEpoch(itin.endTime)+'</b> | '+Locale.amountTransfers(itin.transfers)+ ' | ' + diffDisplay + " | " + itinSummary + '</div>');
     // itinButton.append('<div class="text-left">'+Locale.amountTransfers(itin.transfers)+ ' | ' + diffDisplay + '</div>');
     return itinButton;
 }
