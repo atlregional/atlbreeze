@@ -1020,14 +1020,21 @@ function itinButton(itin){
     var diffDisplay = hours ? hours + ' hr ' + minutes + ' min' : minutes + ' min'
     var itinSummary = '';
     $.each(itin.legs, function(i, leg){
-      var text = leg.mode == 'WALK' ? leg.mode : leg.agencyId
+      var text = getIcon(leg);
       itinSummary += i == itin.legs.length - 1 ? text : text + '<span class="glyphicon glyphicon-arrow-right"></span>';
     });
     itinButton.append('<div class="text-left"><b>'+timeFromEpoch(itin.startTime)+'</b>  <span class="glyphicon glyphicon-arrow-right"></span> <b>'+timeFromEpoch(itin.endTime)+'</b> | '+Locale.amountTransfers(itin.transfers)+ ' | ' + diffDisplay + " | " + itinSummary + '</div>');
     // itinButton.append('<div class="text-left">'+Locale.amountTransfers(itin.transfers)+ ' | ' + diffDisplay + '</div>');
     return itinButton;
 }
-
+function getIcon(leg){
+  return leg.mode === 'WALK' ? '<img src="images/Pedestrian.svg" alt="Walk" height="20">' :
+          leg.mode === 'SUBWAY' ?  '<img src="images/Train.svg" alt="' + leg.agencyId + '" height="20">' :
+          leg.mode === 'CAR' ?  '<img src="images/Car.svg" alt="Drive" height="20">' :
+          leg.mode === 'BICYCLE' ?  '<img src="images/Bike.svg" alt="Bike" height="20">' :
+          leg.mode === 'BUS' ?  '<img src="images/Bus.svg" alt="' + leg.agencyId + '" height="20">' :
+          leg.agencyId;
+}
 function planItinerary(plannerreq){
   var url = planningserver + jQuery.param(plannerreq);
   console.log(url)
