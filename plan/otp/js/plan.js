@@ -827,7 +827,7 @@ function prettyDateEpoch(epoch){
 
 function timeFromEpoch(epoch){
   var date = moment(epoch);
-  return date.format('hh:mm a');
+  return date.format('h:mm a');
 }
 
 var itineraries = null;
@@ -1004,6 +1004,9 @@ function renderItinerary(idx,moveto){
     $('#planner-advice-list').find('.btn').removeClass('active');
     $(this).addClass('active');
 }
+$('#planner-advice-div').on('hover', function(){
+  
+});
 $(document).on('ready', function(){
       var win = $(this); //this = window
       if (win.width() >= 750) { $('.planner-options-form').removeClass('form-inline'); }
@@ -1014,31 +1017,35 @@ $(window).on('resize', function(){
       if (win.width() >= 750) { $('.planner-options-form').removeClass('form-inline'); }
       else { $('.planner-options-form').addClass('form-inline'); }
 });
-function itinButton(itin){
-    var itinButton = $('<button type="button" class="btn btn-xs btn-default planner-advice-itinbutton" onclick="renderItinerary('+itineraries.length+',true)"></button>');
+function itinButton(index, itin){
+  var hidden = ''
+    if (index){ // check if first button, if not add 'hidden' class
+      hidden = 'hidden '
+    }
+    var itinButton = $('<button type="button" class="'+hidden+'btn btn-xs btn-default planner-advice-itinbutton" onclick="renderItinerary('+itineraries.length+',true)"></button>');
     itineraries.push(itin);
     var start = moment(itin.startTime)
     var end = moment(itin.endTime)
     var diff = end.diff(start, 'minutes')
     var minutes = diff%60;
     var hours = Math.floor(diff/60)
-    var diffDisplay = hours ? hours + ' hr ' + minutes + ' min' : minutes + ' min'
+    var diffDisplay = hours ? hours + ' h ' + minutes + ' min' : minutes + ' min'
     var itinSummary = '';
     $.each(itin.legs, function(i, leg){
       var text = getIcon(leg);
-      itinSummary += i == itin.legs.length - 1 ? text : text + '<span class="glyphicon glyphicon-arrow-right"></span>';
+      itinSummary += (i == 0 || text == '' || itinSummary == '') ? text : '<span class="glyphicon glyphicon-arrow-right"></span>' + text;
     });
-    itinButton.append('<div class="text-left"><b>'+timeFromEpoch(itin.startTime)+'</b>  <span class="glyphicon glyphicon-arrow-right"></span> <b>'+timeFromEpoch(itin.endTime)+'</b> | '+Locale.amountTransfers(itin.transfers)+ ' | ' + diffDisplay + " | " + itinSummary + '</div>');
+    itinButton.append('<div class="text-left">'+itinSummary+'<b>'+timeFromEpoch(itin.startTime)+'</b>  <span class="glyphicon glyphicon-arrow-right"></span> <b>'+timeFromEpoch(itin.endTime)+'</b> | '+Locale.amountTransfers(itin.transfers)+ ' | ' + diffDisplay + '</div>');
     // itinButton.append('<div class="text-left">'+Locale.amountTransfers(itin.transfers)+ ' | ' + diffDisplay + '</div>');
     return itinButton;
 }
 function getIcon(leg){
-  return leg.mode === 'WALK' ? '<img src="images/Pedestrian.svg" alt="Walk" height="20">' :
+  return leg.mode === 'WALK' && leg.distance > .5 * 1609.34 ? '<img src="images/Pedestrian.svg" alt="Walk" height="20">' :
           leg.mode === 'SUBWAY' ?  '<img src="images/Train.svg" alt="' + leg.agencyId + '" height="33">' :
           leg.mode === 'CAR' ?  '<img src="images/Car.svg" alt="Drive" height="20">' :
           leg.mode === 'BICYCLE' ?  '<img src="images/Bike.svg" alt="Bike" height="20">' :
-          leg.mode === 'BUS' ?  '<img src="images/Bus.svg" alt="' + leg.agencyId + '" height="25">' :
-          leg.mode;
+          leg.mode === 'BUS' ?  '<img src="images/Bus.svg" alt="' + leg.agencyId + '" height="25">' + leg.routeShortName + ' ' :
+          '';
 }
 function planItinerary(plannerreq){
   var url = planningserver + jQuery.param(plannerreq);
@@ -1072,7 +1079,7 @@ function planItinerary(plannerreq){
             //     $('#planner-advice-list').append('<div class="planner-advice-dateheader">'+prettyStartDate+'</div>');
             //     startDate = prettyStartDate;
             // }
-            $('#planner-advice-list').append(itinButton(itin));
+            $('#planner-advice-list').append(itinButton(index, itin));
         });
         // $('#planner-advice-list').append('<button type="button" class="btn btn-primary" id="planner-advice-later" data-loading-text="'+Locale.loading+'" onclick="laterAdvice()">'+Locale.later+'</button>');
         $('#planner-advice-list').find('.planner-advice-itinbutton').first().click();

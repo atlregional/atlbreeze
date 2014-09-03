@@ -34,7 +34,61 @@ category: 'plan'
     </style>
 </head>
 <body>
+<div class="navbar navbar-default navbar-fixed-top" role="navigation">
+  <!-- Brand and toggle get grouped for better mobile display -->
+  <div class="container">
+  <div class="navbar-header" style="max-height:10px;">
+    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+      <span class="sr-only">Toggle navigation</span>
+      <span class="icon-bar"></span>
+      <span class="icon-bar"></span>
+      <span class="icon-bar"></span>
+    </button>
+    
+  </div>
 
+  <!-- Collect the nav links, forms, and other content for toggling -->
+  <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+    <ul class="nav navbar-nav">
+    <li class="plan"><a class="navvie" href="{{ site.baseurl }}/plan/otp"><span class="glyphicon glyphicon-map-marker"></span> Plan trip</a></li>
+ <!--    <li class="dropdown plan">
+        <a href="#" class="dropdown-toggle"  data-toggle="dropdown"><span class="glyphicon glyphicon-map-marker"></span> Plan trip <b class="caret"></b></a>
+        <ul class="dropdown-menu">
+          <li><a class="navvie" href="{{ site.baseurl }}/plan/otp">OpenTripPlanner</a></li>
+          <li><a class="navvie" href="{{ site.baseurl }}/plan/goog">Google Maps</a></li>
+        </ul>
+      </li> -->
+      <li class="fare"><a class="navvie" href="{{ site.baseurl }}/fare"><span class="glyphicon glyphicon-usd"></span> Get fare</a></li>
+      <li class="real-time"><a class="navvie" href="{{ site.baseurl }}/real-time"><span class="glyphicon glyphicon-flash"></span> Real-time info</a></li>
+      <li class="alerts"><a class="navvie" href="{{ site.baseurl }}/alerts"><span class="glyphicon glyphicon-info-sign"></span> Service alerts</a></li>
+      <li class="real-time"></li>
+      <!-- <li class="dropdown real-time">
+        <a href="#" class="dropdown-toggle"  data-toggle="dropdown"><span class="glyphicon glyphicon-flash"></span> Real-time info <b class="caret"></b></a>
+        <ul class="dropdown-menu">
+          <li><a class="navvie" href="{{ site.baseurl }}/real-time">Arrival info</a></li>
+          <li><a class="navvie" href="{{ site.baseurl }}/alerts">Service Alerts</a></li>
+          <li><a href="{{ site.baseurl }}/explore/map"><span class="glyphicon glyphicon-map-marker"></span> Map</a></li>
+          <li class="divider"></li>
+          <li><a href="http://atlantaregional.com/about-us/regional-data-and-tools"><span class="glyphicon glyphicon-search"></span> Other ARC data</a></li>
+        </ul>
+      </li> -->
+      <li class="transfer"><a class="navvie" href="{{ site.baseurl }}/transfer"><span class="glyphicon glyphicon-random"></span> Transfer</a></li>
+<!--       <li class="alerts"><a class="navvie" href="{{ site.baseurl }}/alerts">Alerts</a></li>
+ -->      
+    </ul>
+    <ul class="nav navbar-nav navbar-right">
+    <li class="about" style="position:relative;right:180px;"><a class="navvie" href="{{ site.baseurl }}/about" >About</a></li>
+      
+      <li style="position:relative; top:10px; left:10px;">
+        <span>
+          <!-- <span id="welcome-message" style="display:none;"></span><button id="gh-login" class="btn btn-success" data-loading-text="Logging in..." title="Log in with GitHub">Log in</button> -->
+          <a href="{{ site.baseurl }}/" class="hidden-xs navvie" style="position:absolute;right:15px;top:3px;"  title="View on GitHub"><img height="54px" id="gh" src="{{ site.baseurl }}/lib/images/go_atl274.png"></a>
+        </span>
+      </li>
+    </ul>
+  </div><!-- /.navbar-collapse -->
+  </div>
+</div>
 <div id='map'></div>
   <div class="row">
   <div id="modal-simple" class="col-md-4 col-sm-6 col-xs-8" style="padding:5px; margin-left:15px; overflow:hidden;top:60px;-webkit-border-radius: 0px;-moz-border-radius: 0px;border-radius: 0px;background:rgba(255,255,255,1);-webkit-box-shadow: #B3B3B3 4px 4px 4px;-moz-box-shadow: #B3B3B3 4px 4px 4px; box-shadow: #B3B3B3 4px 4px 4px;">
