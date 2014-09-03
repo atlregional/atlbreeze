@@ -126,8 +126,13 @@ function maxBounds(bounds1, bounds2){
 function addMarker(point, title, symbol){
   title = truncate(title, 60);
   console.log(title)
+  var zoom;
   if (geoJSON.features.length > 0){
     map.removeSource('markers', markers);
+    zoom = map.getZoom() - 1;
+  }
+  else{
+    zoom = map.getZoom() + 2;
   }
   geoJSON.features.push({
           "type": "Feature",
@@ -146,7 +151,7 @@ function addMarker(point, title, symbol){
   
   map.addSource('markers', markers);
   // if (geoJSON.features.length < 2){
-    map.flyTo(point, 13, 0, {duration:1000})
+    map.flyTo(point, zoom, 0, {duration:1000})
   // }
   // else{
   //   geoJSON
@@ -829,7 +834,7 @@ var itineraries = null;
 
 function toTitleCase(str) {
     return str.replace(/\w\S*/g, function(txt){
-      if (/LCI|CTP|TDM|CSX|MARTA|^FY$|^ARC$|^SR$|^II$|^STP$|^III$|^US$|CMAQ/g.test(txt))
+      if (/LCI|CTP|TDM|CSX|^NW$|^NE$|^SE$|^SW$|MARTA|^FY$|^ARC$|^SR$|^II$|^STP$|^III$|^US$|CMAQ/g.test(txt))
         return txt
       else if (/^IN$|^OF$|^AND$|^FOR$/g.test(txt)){
         return txt.toLowerCase()
@@ -1029,11 +1034,11 @@ function itinButton(itin){
 }
 function getIcon(leg){
   return leg.mode === 'WALK' ? '<img src="images/Pedestrian.svg" alt="Walk" height="20">' :
-          leg.mode === 'SUBWAY' ?  '<img src="images/Train.svg" alt="' + leg.agencyId + '" height="20">' :
+          leg.mode === 'SUBWAY' ?  '<img src="images/Train.svg" alt="' + leg.agencyId + '" height="33">' :
           leg.mode === 'CAR' ?  '<img src="images/Car.svg" alt="Drive" height="20">' :
           leg.mode === 'BICYCLE' ?  '<img src="images/Bike.svg" alt="Bike" height="20">' :
-          leg.mode === 'BUS' ?  '<img src="images/Bus.svg" alt="' + leg.agencyId + '" height="20">' :
-          leg.agencyId;
+          leg.mode === 'BUS' ?  '<img src="images/Bus.svg" alt="' + leg.agencyId + '" height="25">' :
+          leg.mode;
 }
 function planItinerary(plannerreq){
   var url = planningserver + jQuery.param(plannerreq);
