@@ -173,137 +173,142 @@ mapboxgl.util.getJSON('https://www.mapbox.com/mapbox-gl-styles/styles/bright-v4.
   if (err) throw err;
 
   
+  console.log(style.layers);
+  newStyles = [
+    {
+      "id": "RED",
+      "source": "RED",
+      "render": {
+        "$type": "MultiLineString",
+        "line-join": "round",
+        "line-cap": "round"
+      },
+      "style": {
+        "line-color": "#FF0000",
+        "line-width": 5
+      },
+      "type": "line"
+    },
+    {
+      "id": "GOLD",
+      "source": "GOLD",
+      "render": {
+        "$type": "MultiLineString",
+        "line-join": "round",
+        "line-cap": "round"
+      },
+      "style": {
+        "line-color": "#ffd700",
+        "line-width": 5
+      },
+      "type": "line"
+    },
+    {
+      "id": "BLUE",
+      "source": "BLUE",
+      "render": {
+        "$type": "MultiLineString",
+        "line-join": "round",
+        "line-cap": "round"
+      },
+      "style": {
+        "line-color": "#0000FF",
+        "line-width": 5
+      },
+      "type": "line"
+    },
+    {
+      "id": "GREEN",
+      "source": "GREEN",
+      "render": {
+        "$type": "MultiLineString",
+        "line-join": "round",
+        "line-cap": "round"
+      },
+      "style": {
+        "line-color": "#009933",
+        "line-width": 5
+      },
+      "type": "line"
+    },
+    {
+      "id": "MARTA",
+      "source": "MARTA",
+      "render": {
+        "$type": "MultiLineString",
+        "line-join": "round",
+        "line-cap": "round"
+      },
+      "style": {
+        "line-color": "#f79044",
+        "line-width": 5
+      },
+      "type": "line"
+    },
+    {
+      "id": "GRTA",
+      "source": "GRTA",
+      "render": {
+        "$type": "MultiLineString",
+        "line-join": "round",
+        "line-cap": "round"
+      },
+      "style": {
+        "line-color": "#47bad5",
+        "line-width": 5
+      },
+      "type": "line"
+    },
+    {
+      "id": "CCT",
+      "source": "CCT",
+      "render": {
+        "$type": "MultiLineString",
+        "line-join": "round",
+        "line-cap": "round"
+      },
+      "style": {
+        "line-color": "#a53895",
+        "line-width": 5
+      },
+      "type": "line"
+    },
+    {
+      "id": "GCT",
+      "source": "GCT",
+      "render": {
+        "$type": "MultiLineString",
+        "line-join": "round",
+        "line-cap": "round"
+      },
+      "style": {
+        "line-color": "#9a0e34",
+        "line-width": 5
+      },
+      "type": "line"
+    },
+    {
+      "id": "route",
+      "source": "route",
+      "render": {
+        "$type": "MultiLineString",
+        "line-join": "round",
+        "line-cap": "round"
+      },
+      "style": {
+        "line-color": "#888",
+        "line-dasharray":[10, 4],
+        "line-width": 5,
+        "line-opacity":.5
+      },
+      "type": "line"
+    }
+  ];
+$.each(newStyles, function(i, sty){
+  style.layers.splice(77, 0, sty);
+})
+console.log(style.layers)
 
-  style.layers.push(
-  {
-    "id": "RED",
-    "source": "RED",
-    "render": {
-      "$type": "MultiLineString",
-      "line-join": "round",
-      "line-cap": "round"
-    },
-    "style": {
-      "line-color": "#FF0000",
-      "line-width": 5
-    },
-    "type": "line"
-  },
-  {
-    "id": "GOLD",
-    "source": "GOLD",
-    "render": {
-      "$type": "MultiLineString",
-      "line-join": "round",
-      "line-cap": "round"
-    },
-    "style": {
-      "line-color": "#ffd700",
-      "line-width": 5
-    },
-    "type": "line"
-  },
-  {
-    "id": "BLUE",
-    "source": "BLUE",
-    "render": {
-      "$type": "MultiLineString",
-      "line-join": "round",
-      "line-cap": "round"
-    },
-    "style": {
-      "line-color": "#0000FF",
-      "line-width": 5
-    },
-    "type": "line"
-  },
-  {
-    "id": "GREEN",
-    "source": "GREEN",
-    "render": {
-      "$type": "MultiLineString",
-      "line-join": "round",
-      "line-cap": "round"
-    },
-    "style": {
-      "line-color": "#009933",
-      "line-width": 5
-    },
-    "type": "line"
-  },
-  {
-    "id": "MARTA",
-    "source": "MARTA",
-    "render": {
-      "$type": "MultiLineString",
-      "line-join": "round",
-      "line-cap": "round"
-    },
-    "style": {
-      "line-color": "#f79044",
-      "line-width": 5
-    },
-    "type": "line"
-  },
-  {
-    "id": "GRTA",
-    "source": "GRTA",
-    "render": {
-      "$type": "MultiLineString",
-      "line-join": "round",
-      "line-cap": "round"
-    },
-    "style": {
-      "line-color": "#47bad5",
-      "line-width": 5
-    },
-    "type": "line"
-  },
-  {
-    "id": "CCT",
-    "source": "CCT",
-    "render": {
-      "$type": "MultiLineString",
-      "line-join": "round",
-      "line-cap": "round"
-    },
-    "style": {
-      "line-color": "#a53895",
-      "line-width": 5
-    },
-    "type": "line"
-  },
-  {
-    "id": "GCT",
-    "source": "GCT",
-    "render": {
-      "$type": "MultiLineString",
-      "line-join": "round",
-      "line-cap": "round"
-    },
-    "style": {
-      "line-color": "#9a0e34",
-      "line-width": 5
-    },
-    "type": "line"
-  },
-  {
-    "id": "route",
-    "source": "route",
-    "render": {
-      "$type": "MultiLineString",
-      "line-join": "round",
-      "line-cap": "round"
-    },
-    "style": {
-      "line-color": "#888",
-      "line-dasharray":[10, 4],
-      "line-width": 5,
-      "line-opacity":.5
-    },
-    "type": "line"
-  }
-  );
 style.layers.push({
     "id": "markers",
     "source": "markers",
@@ -558,8 +563,14 @@ var photon_geocoder = function(request, response) {
         desc.push(props.city);
       }
       if (props.osm_value && props.osm_key != 'building'){
-        desc.push('('+props.osm_value+')');
+        if (props.osm_key == 'highway'){
+          desc.push('(road)');  
+        }
+        else{
+          desc.push('('+props.osm_value+')');
+        }
       }
+
       return {
         label: props.name, //item.display_name.split(', Georgia, United States of America')[0],
         value: props.name, //item.display_name.split(', Georgia, United States of America')[0],
