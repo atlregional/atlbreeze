@@ -15,6 +15,7 @@ category: 'plan'
     <link  rel="stylesheet" href="http://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.2.0/css/bootstrap.min.css"></link>
         <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
     <script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.11.1/jquery-ui.min.js"></script>
+    <link rel="stylesheet" href="{{ site.baseurl }}/plan/otp/css/custom-theme/jquery-ui-1.10.3.custom.css" />
     <link rel="stylesheet" type="text/css" href="css/style.css">
     <script type="text/javascript" src="{{ site.baseurl }}/lib/javascripts/jquery.cookie.js"></script>
 <script type="text/javascript" src="{{ site.baseurl }}/lib/javascripts/github.js"></script>
@@ -99,6 +100,7 @@ category: 'plan'
               <label class="input-group-addon planner-options-input-addon required label-from" for="planner-options-from"><span class="glyphicon glyphicon-play-circle"></span></label>
               <input id="planner-options-from" type="text" title="From" aria-required="true" class="planner-place form-control" placeholder="Train station, bus stop, or address" x-webkit-speech="x-webkit-speech" required="required" />
               <input id="planner-options-from-latlng" type="hidden" />
+              <p id="planner-options-from-desc"></p>
             </div>
           </div>
           <div style="margin:0px;" class="form-group col-lg-12 col-md-12 col-sm-12 col-xs-6">

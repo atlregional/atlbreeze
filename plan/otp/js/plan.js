@@ -512,6 +512,66 @@ var google_geocoder = function( request, response ) {
   });
 };
 
+var photon_geocoder = function(request, response) {
+  this.url = 'http://photon.komoot.de/api/?';
+  var params = {};
+  var mapObj = {
+    'ne': 'northeast',
+    'sw': 'southwest',
+    'nw': 'northwest',
+    'se': 'southeast'
+  }
+  var newterm = request.term.replace(/(\s+)NE|(\s+)NW|(\s+)SE|(\s+)SW/gi, function(matched){
+    return ' ' + mapObj[matched.slice(1)];
+  });
+  params.q =newterm// request.term.replace(/^NE$/i, 'northeast')//.replace(/^SE$/g, 'southeast').replace(/^NW$/g, 'northwest').replace(/^SW$/g, 'southwest');
+
+  params.lat = '33.766'
+  params.lon = '-84.405'
+  params.limit = '10'
+
+  $.ajax(this.url, {
+    data : params,
+    // dataType: "jsonp",
+    success: function( data ) {
+      response( $.map( data.features, function( item ) {
+        console.log(item.properties)
+      var props = item.properties;
+      var desc = [];
+      var title = '';
+      if (props.name){
+        // desc.push(props.name);
+        title = props.name;
+        // desc[0] = '<strong>'+desc[0]+'<strong>'
+      }
+
+      if (props.housenumber && props.street){
+        if (!props.name){
+          title = props.housenumber + ' ' + props.street
+        }
+        else{
+          desc.push(props.housenumber + ' ' + props.street);
+          // desc.push(props.street);
+        }
+      }
+      if (props.city){
+        desc.push(props.city);
+      }
+      if (props.osm_value && props.osm_key != 'building'){
+        desc.push('('+props.osm_value+')');
+      }
+      return {
+        label: props.name, //item.display_name.split(', Georgia, United States of America')[0],
+        value: props.name, //item.display_name.split(', Georgia, United States of America')[0],
+        latlng: item.geometry.coordinates[1]+','+item.geometry.coordinates[0],
+        desc: desc.join(', ')
+        }
+      }));
+    }
+  })
+
+}
+
 var nominatim_geocoder = function(request, response) {
   this.url = 'http://open.mapquestapi.com/nominatim/v1/search.php?';
   var params = {};
@@ -541,7 +601,7 @@ var nominatim_geocoder = function(request, response) {
 
 
 var Geocoder = Geocoder || {};
-Geocoder.geocoder = nominatim_geocoder;
+Geocoder.geocoder = photon_geocoder;
 
 switchLocale();
 
@@ -1328,20 +1388,20 @@ function setupAutoComplete(){
         select: function( event, ui ) {
             $( "#planner-options-from" ).val( ui.item.label );
             $( "#planner-options-from-latlng" ).val( ui.item.latlng );
+            $( "#project-description" ).html( ui.item.desc );
             console.log(ui.item)
             var point = ui.item.latlng.split(",")
             addMarker({lat:Number(point[0]),lng:Number(point[1])}, ui.item.label, "circle-stroked")
             return false;
         }
-        // ,
-        // response: function( event, ui ) {
-        //    if ( ui.content.length === 1 &&
-        //         ui.content[0].label.toLowerCase().indexOf( $( "#planner-options-from" ).val().toLowerCase() ) === 0 ) {
-        //       $( "#planner-options-from" ).val( ui.content[0].label );
-        //       $( "#planner-options-from-latlng" ).val( ui.content[0].latlng );
-        //    }
-        // }
-    });
+
+    })
+    .data("ui-autocomplete")._renderItem = function (ul, item) {
+               return $("<li></li>")
+                   .data("item.autocomplete", item)
+                   .append("<b>" + item.label + "</b><br>" + item.desc) //+ "</a>")
+                   .appendTo(ul);
+    };
     $( "#planner-options-dest" ).autocomplete({
         autoFocus: true,
         minLength: 3,
@@ -1363,15 +1423,13 @@ function setupAutoComplete(){
             addMarker({lat:Number(point[0]),lng:Number(point[1])}, ui.item.label, "circle")
             return false;
         }
-        // ,
-        // response: function( event, ui ) {
-        //    if ( ui.content.length === 1 &&
-        //         ui.content[0].label.toLowerCase().indexOf( $( "#planner-options-dest" ).val().toLowerCase() ) === 0 ) {
-        //       $( "#planner-options-dest" ).val( ui.content[0].label );
-        //       $( "#planner-options-dest-latlng" ).val( ui.content[0].latlng );
-        //    }
-        // }
-    });
+    })
+    .data("ui-autocomplete")._renderItem = function (ul, item) {
+               return $("<li></li>")
+                   .data("item.autocomplete", item)
+                   .append("<b>" + item.label + "</b><br>" + item.desc) //+ "</a>")
+                   .appendTo(ul);
+    };
 }
 
 function switchLocale() {
