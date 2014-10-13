@@ -172,8 +172,7 @@ mapboxgl.accessToken = 'pk.eyJ1IjoiYXRscmVnaW9uYWwiLCJhIjoiQmZ6d2tyMCJ9.oENm3NSf
 mapboxgl.util.getJSON('https://www.mapbox.com/mapbox-gl-styles/styles/bright-v4.json', function (err, style) {
   if (err) throw err;
 
-  
-  console.log(style.layers);
+  console.log(style);
   newStyles = [
     {
       "id": "RED",
@@ -185,7 +184,8 @@ mapboxgl.util.getJSON('https://www.mapbox.com/mapbox-gl-styles/styles/bright-v4.
       },
       "style": {
         "line-color": "#FF0000",
-        "line-width": 5
+        "line-width": "@motorway_width",
+        "comp-op": "hue"
       },
       "type": "line"
     },
@@ -199,7 +199,7 @@ mapboxgl.util.getJSON('https://www.mapbox.com/mapbox-gl-styles/styles/bright-v4.
       },
       "style": {
         "line-color": "#ffd700",
-        "line-width": 5
+        "line-width": "@motorway_width"
       },
       "type": "line"
     },
@@ -213,7 +213,7 @@ mapboxgl.util.getJSON('https://www.mapbox.com/mapbox-gl-styles/styles/bright-v4.
       },
       "style": {
         "line-color": "#0000FF",
-        "line-width": 5
+        "line-width": "@motorway_width"
       },
       "type": "line"
     },
@@ -227,7 +227,7 @@ mapboxgl.util.getJSON('https://www.mapbox.com/mapbox-gl-styles/styles/bright-v4.
       },
       "style": {
         "line-color": "#009933",
-        "line-width": 5
+        "line-width": "@motorway_width"
       },
       "type": "line"
     },
@@ -241,10 +241,26 @@ mapboxgl.util.getJSON('https://www.mapbox.com/mapbox-gl-styles/styles/bright-v4.
       },
       "style": {
         "line-color": "#f79044",
-        "line-width": 5
+        "line-width": "@motorway_width"
       },
       "type": "line"
     },
+    // {
+    //   "id": "MARTA_casing",
+    //   "source": "mapbox",
+    //   "source-layer": "MARTA",
+    //   "render": {
+    //     "line-join": "round",
+    //     "line-cap": "round"
+    //   },
+    //   "style": {
+    //     "line-color": "#47bad5",
+    //     "line-dasharray":[10, 4],
+    //     "line-width": "@motorway_link_casing_width",
+    //     "line-opacity":.5
+    //   },
+    //   "type": "line"
+    // },
     {
       "id": "GRTA",
       "source": "GRTA",
@@ -255,7 +271,7 @@ mapboxgl.util.getJSON('https://www.mapbox.com/mapbox-gl-styles/styles/bright-v4.
       },
       "style": {
         "line-color": "#47bad5",
-        "line-width": 5
+        "line-width": "@motorway_width"
       },
       "type": "line"
     },
@@ -269,7 +285,7 @@ mapboxgl.util.getJSON('https://www.mapbox.com/mapbox-gl-styles/styles/bright-v4.
       },
       "style": {
         "line-color": "#a53895",
-        "line-width": 5
+        "line-width": "@motorway_width"
       },
       "type": "line"
     },
@@ -283,7 +299,7 @@ mapboxgl.util.getJSON('https://www.mapbox.com/mapbox-gl-styles/styles/bright-v4.
       },
       "style": {
         "line-color": "#9a0e34",
-        "line-width": 5
+        "line-width": "@motorway_width"
       },
       "type": "line"
     },
@@ -298,20 +314,22 @@ mapboxgl.util.getJSON('https://www.mapbox.com/mapbox-gl-styles/styles/bright-v4.
       "style": {
         "line-color": "#888",
         "line-dasharray":[10, 4],
-        "line-width": 5,
+        "line-width": "@motorway_width",
         "line-opacity":.5
       },
       "type": "line"
     }
   ];
 $.each(newStyles, function(i, sty){
-  style.layers.splice(77, 0, sty);
+  style.layers.splice(70, 0, sty);
 })
 console.log(style.layers)
 
 style.layers.push({
     "id": "markers",
     "source": "markers",
+    "max-zoom": 30,
+    // "min-zoom": 8,
     "type": "symbol",
     "render": {
       "icon-image": "{marker-symbol}-12",
@@ -575,7 +593,7 @@ var photon_geocoder = function(request, response) {
         label: props.name, //item.display_name.split(', Georgia, United States of America')[0],
         value: props.name, //item.display_name.split(', Georgia, United States of America')[0],
         latlng: item.geometry.coordinates[1]+','+item.geometry.coordinates[0],
-        desc: desc.join(', ')
+        desc: desc.join(' ')
         }
       }));
     }
@@ -1090,10 +1108,10 @@ $(window).on('resize', function(){
 });
 function itinButton(index, itin){
   var hidden = ''
-    if (index){ // check if first button, if not add 'hidden' class
-      hidden = 'hidden '
-    }
-    var itinButton = $('<button type="button" class="'+hidden+'btn btn-xs btn-default planner-advice-itinbutton" onclick="renderItinerary('+itineraries.length+',true)"></button>');
+    // if (index){ // check if first button, if not add 'hidden' class
+    //   hidden = 'hidden '
+    // }
+    var itinButton = $('<button type="button" class="btn btn-xs btn-default planner-advice-itinbutton" onclick="renderItinerary('+itineraries.length+',true)"></button>');
     itineraries.push(itin);
     var start = moment(itin.startTime)
     var end = moment(itin.endTime)
@@ -1106,13 +1124,14 @@ function itinButton(index, itin){
       var text = getIcon(leg);
       itinSummary += (i == 0 || text == '' || itinSummary == '') ? text : '<span class="glyphicon glyphicon-arrow-right"></span>' + text;
     });
-    itinButton.append('<div class="text-left">'+itinSummary+'<b>'+timeFromEpoch(itin.startTime)+'</b>  <span class="glyphicon glyphicon-arrow-right"></span> <b>'+timeFromEpoch(itin.endTime)+'</b> | '+Locale.amountTransfers(itin.transfers)+ ' | ' + diffDisplay + '</div>');
+    // itinButton.append('<div class="text-left">'+itinSummary+'<span class="'+hidden+'"><b>'+timeFromEpoch(itin.startTime)+'</b>  <span class="glyphicon glyphicon-arrow-right"></span> <b>'+timeFromEpoch(itin.endTime)+'</b> | '+Locale.amountTransfers(itin.transfers)+ ' | ' + diffDisplay + '</span></div>');
+    itinButton.append('<div class="text-left">'+itinSummary+'<span class="pull-right'+hidden+'">'+ diffDisplay + '</span></div>');
     // itinButton.append('<div class="text-left">'+Locale.amountTransfers(itin.transfers)+ ' | ' + diffDisplay + '</div>');
     return itinButton;
 }
 function getIcon(leg){
   return leg.mode === 'WALK' && leg.distance > .5 * 1609.34 ? '<img src="images/Pedestrian.svg" alt="Walk" height="20">' :
-          leg.mode === 'SUBWAY' ?  '<img src="images/Train.svg" alt="' + leg.agencyId + '" height="33">' :
+          leg.mode === 'SUBWAY' ?  '<img src="images/Train.svg" alt="' + leg.agencyId + '" height="27">' :
           leg.mode === 'CAR' ?  '<img src="images/Car.svg" alt="Drive" height="20">' :
           leg.mode === 'BICYCLE' ?  '<img src="images/Bike.svg" alt="Bike" height="20">' :
           leg.mode === 'BUS' ?  '<img src="images/Bus.svg" alt="' + leg.agencyId + '" height="25">' + leg.routeShortName + ' ' :
