@@ -32,6 +32,7 @@ category: 'goog'
   <div class="form-group">
     <div class="col-sm-offset-2 col-sm-10">
       <button type="button" class="btn btn-default" id="plan-trip">Plan it!</button>
+      <button type="button" class="btn btn-default" disabled id="view-google">View on Google</button>
     </div>
   </div>
 </form>
@@ -45,14 +46,35 @@ category: 'goog'
 <script type="text/javascript">
 	var key = 'AIzaSyD0WV0LgK2em6I2KOL5viUX1wP_VyQOQNk';
 	var url = 'https://www.google.com/maps/embed/v1/'
+  var googUrl = 'http://maps.google.com/?'
+  var params = {};
+  var src = ''
 	$('#plan-trip').click(function(){
 		var origin = $('#origin').val();
 		console.log(origin)
-
+    $('#view-google').attr('disabled', false);
 		var destination = $('#destination').val();
+    params.saddr = origin;
+    params.daddr = destination;
+    params.dirflg = 'r';
 		console.log(destination)
-		var src = url + 'directions?key=' + key + '&origin=' + origin + '&destination=' + destination + '&mode=transit'
+		src = url + 'directions?key=' + key + '&origin=' + origin + '&destination=' + destination + '&mode=transit'
 		console.log(src)
 		$('#map').attr('src', src)
 	})
+  $('#view-google').click(function(){
+    window.location.href = googUrl + serialize(params);
+  });
+  serialize = function(obj, prefix) {
+    var str = [];
+    for(var p in obj) {
+      if (obj.hasOwnProperty(p)) {
+        var k = prefix ? prefix + "[" + p + "]" : p, v = obj[p];
+        str.push(typeof v == "object" ?
+          serialize(v, k) :
+          encodeURIComponent(k) + "=" + encodeURIComponent(v));
+      }
+    }
+    return str.join("&");
+  }
 </script>
