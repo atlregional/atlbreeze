@@ -7,30 +7,30 @@ var geoJSON = {
     "type": "FeatureCollection",
     "features": [
     ]};
-
+var esri_url = 'http://geocode.arcgis.com/arcgis/rest/services/World/GeocodeServer/';
     //// Code doesn't work!
     // $(document).on('change', 'input:radio[name=mode-select]', function (event) {
     //     alert("click fired");
     // });
 
 function mapClick(e){
-  console.log(e)
-  var point = map.unproject(e.point)
+  console.log(e);
+  var point = map.unproject(e.point);
   console.log(point);
-  if ($( "#planner-options-from-latlng" ).val() == ''){
-    console.log("origin")
+  if ($( "#planner-options-from-latlng" ).val() === ''){
+    console.log("origin");
     
     $( "#planner-options-from-latlng" ).val(point.lat + ',' + point.lng);
-    reverseGeocode(point, "#planner-options-from")
+    reverseGeocode(point, "#planner-options-from");
     
 
 
   }
-  else if ($( "#planner-options-dest-latlng" ).val() == ''){
-    console.log("dest")
+  else if ($( "#planner-options-dest-latlng" ).val() === ''){
+    console.log("dest");
     dest = point;
     $( "#planner-options-dest-latlng" ).val(point.lat + ',' + point.lng);
-    reverseGeocode(point, "#planner-options-dest")
+    reverseGeocode(point, "#planner-options-dest");
     
   }
 
@@ -42,13 +42,13 @@ function getDisplay(data){
   else if (data.address.building)
     display = data.address.building;
   else if (data.address.house_number)
-    display = data.address.house_number + " " + data.address.road
+    display = data.address.house_number + " " + data.address.road;
   else if (data.address.road)
-    display = data.address.road + ', ' + data.address.city
+    display = data.address.road + ', ' + data.address.city;
   else if (data.address.neighborhood)
-    display = data.address.neighborhood + ', ' + data.address.city + ', ' + data.address.state
+    display = data.address.neighborhood + ', ' + data.address.city + ', ' + data.address.state;
   else if (data.address.city)
-    display = data.address.city + ', ' + data.address.state
+    display = data.address.city + ', ' + data.address.state;
   return display;
 }
 
@@ -57,9 +57,9 @@ function reverseGeocode(point, id){
   var params = {};
   params.lat = point.lat;
   params.lon = point.lng;
-  params.zoom = '18'
-  params.countrycodes = 'US'
-  params.format = 'json'
+  params.zoom = '18';
+  params.countrycodes = 'US';
+  params.format = 'json';
   // params.key = this.key;
   // params.components = 'administrative_area:GA|country:US';
   // params.sensor = 'false';
@@ -68,18 +68,18 @@ function reverseGeocode(point, id){
     data : params,
     success: function( data ) {
       console.log(data);
-      var display = getDisplay(data)
+      var display = getDisplay(data);
       
       $(id).val(display);
       
       var symbol = "circle-stroked";
       if (id == "#planner-options-dest"){
         symbol = "circle";
-        setTimeout(function(){submit();}, 100)
+        setTimeout(function(){submit();}, 100);
       }
-      addMarker(point, display, symbol)
+      addMarker(point, display, symbol);
     }
-  })
+  });
 }
 function getBoundingBox (data) {
     var bounds = {}, coords, point, latitude, longitude;
@@ -125,7 +125,7 @@ function maxBounds(bounds1, bounds2){
 }
 function addMarker(point, title, symbol){
   title = truncate(title, 60);
-  console.log(title)
+  console.log(title);
   var zoom;
   if (geoJSON.features.length > 0){
     map.removeSource('markers', markers);
@@ -151,7 +151,7 @@ function addMarker(point, title, symbol){
   
   map.addSource('markers', markers);
   // if (geoJSON.features.length < 2){
-    map.flyTo(point, zoom, 0, {duration:1000})
+    map.flyTo(point, zoom, 0, {duration:1000});
   // }
   // else{
   //   geoJSON
@@ -184,7 +184,7 @@ mapboxgl.util.getJSON('https://www.mapbox.com/mapbox-gl-styles/styles/bright-v4.
       },
       "style": {
         "line-color": "#FF0000",
-        "line-width": "@motorway_width",
+        "line-width": 5,
         "comp-op": "hue"
       },
       "type": "line"
@@ -199,7 +199,7 @@ mapboxgl.util.getJSON('https://www.mapbox.com/mapbox-gl-styles/styles/bright-v4.
       },
       "style": {
         "line-color": "#ffd700",
-        "line-width": "@motorway_width"
+        "line-width": 5
       },
       "type": "line"
     },
@@ -213,7 +213,7 @@ mapboxgl.util.getJSON('https://www.mapbox.com/mapbox-gl-styles/styles/bright-v4.
       },
       "style": {
         "line-color": "#0000FF",
-        "line-width": "@motorway_width"
+        "line-width": 5
       },
       "type": "line"
     },
@@ -227,7 +227,7 @@ mapboxgl.util.getJSON('https://www.mapbox.com/mapbox-gl-styles/styles/bright-v4.
       },
       "style": {
         "line-color": "#009933",
-        "line-width": "@motorway_width"
+        "line-width": 5
       },
       "type": "line"
     },
@@ -241,7 +241,7 @@ mapboxgl.util.getJSON('https://www.mapbox.com/mapbox-gl-styles/styles/bright-v4.
       },
       "style": {
         "line-color": "#f79044",
-        "line-width": "@motorway_width"
+        "line-width": 5
       },
       "type": "line"
     },
@@ -271,7 +271,7 @@ mapboxgl.util.getJSON('https://www.mapbox.com/mapbox-gl-styles/styles/bright-v4.
       },
       "style": {
         "line-color": "#47bad5",
-        "line-width": "@motorway_width"
+        "line-width": 5
       },
       "type": "line"
     },
@@ -285,7 +285,7 @@ mapboxgl.util.getJSON('https://www.mapbox.com/mapbox-gl-styles/styles/bright-v4.
       },
       "style": {
         "line-color": "#a53895",
-        "line-width": "@motorway_width"
+        "line-width": 5
       },
       "type": "line"
     },
@@ -299,7 +299,7 @@ mapboxgl.util.getJSON('https://www.mapbox.com/mapbox-gl-styles/styles/bright-v4.
       },
       "style": {
         "line-color": "#9a0e34",
-        "line-width": "@motorway_width"
+        "line-width": 5
       },
       "type": "line"
     },
@@ -314,16 +314,16 @@ mapboxgl.util.getJSON('https://www.mapbox.com/mapbox-gl-styles/styles/bright-v4.
       "style": {
         "line-color": "#888",
         "line-dasharray":[10, 4],
-        "line-width": "@motorway_width",
-        "line-opacity":.5
+        "line-width": 5,
+        "line-opacity":0.5
       },
       "type": "line"
     }
   ];
 $.each(newStyles, function(i, sty){
-  style.layers.splice(70, 0, sty);
-})
-console.log(style.layers)
+  style.layers.push(sty);
+});
+console.log(style.layers);
 
 style.layers.push({
     "id": "markers",
@@ -405,7 +405,7 @@ var whitelabel_prefix = 'http://opentrip.atlantaregion.com/otp-rest-servlet/';
 var whitelabel_minDate = new Date(2014, 02, 08);
 var whitelabel_maxDate = new Date(2020, 03, 30);
 
-var Locale = {}
+var Locale = {};
 
 Locale.dateFormat = 'mm-dd-yy';
 Locale.timeFormat = 'h:mma';
@@ -420,8 +420,8 @@ Locale.destinationEmpty = "No destination entered";
 Locale.noDestinationSelected = "No destination selected";
 Locale.noValidDate = "Enter a valid date";
 Locale.noValidTime = "Enter a valid time";
-Locale.dateTooEarly = function ( minDate8601 ) { return "This trip planner works for travel dates starting "+minDate8601.split('-').reverse().join('-'); }
-Locale.dateTooLate = function ( maxDate8601 ) { return "This trip planner works for travel dates till "+maxDate8601.split('-').reverse().join('-'); }
+Locale.dateTooEarly = function ( minDate8601 ) { return "This trip planner works for travel dates starting "+minDate8601.split('-').reverse().join('-'); };
+Locale.dateTooLate = function ( maxDate8601 ) { return "This trip planner works for travel dates till "+maxDate8601.split('-').reverse().join('-'); };
 Locale.from = "From";
 Locale.via = "Via";
 Locale.to = "To";
@@ -436,13 +436,13 @@ Locale.noAdviceFound = 'No valid trips found';
 Locale.walk = 'Walk';
 Locale.platformrail = 'Platform';
 Locale.platform = 'Platform';
-Locale.amountTransfers = function ( transfers ) { if (transfers == 0) { return 'Direct'; } else { return transfers+ ' transfers';} }
+Locale.amountTransfers = function ( transfers ) { if (transfers === 0) { return 'Direct'; } else { return transfers+ ' transfers';} };
 Locale.autocompleteMessages = {
         noResults: "No results found.",
         results: function( amount ) {
             return amount + ( amount > 1 ? " results are " : " result is" ) + " available, use the up and down arrow keys to navigate them.";
         }
-}
+};
 
 
 
@@ -453,7 +453,7 @@ String.prototype.lpad = function(padString, length) {
     while (str.length < length)
         str = padString + str;
     return str;
-}
+};
 
 jQuery.unparam = function (value) {
     if (value.length > 1 && value.charAt(0) == '#'){
@@ -493,7 +493,7 @@ var bag42 = function( request, response ) {
         label: item.formatted_address,
         value: item.formatted_address,
         latlng: item.geometry.location.lat+','+item.geometry.location.lng
-        }
+        };
       }));
     }
   });
@@ -510,7 +510,7 @@ var bliksem_geocoder = function( request, response ) {
         label: item.properties.search,
         value: item.properties.search,
         latlng: item.geometry.coordinates[1]+','+item.geometry.coordinates[0]
-        }
+        };
       }));
     }
   });
@@ -519,7 +519,7 @@ var bliksem_geocoder = function( request, response ) {
 
 var google_geocoder = function( request, response ) {
   var google_url = 'https://maps.googleapis.com/maps/api/geocode/json?address=';
-  var key = 'AIzaSyCSEnj3req-uXzLNeFuEgY-57M-AL1nq50'
+  var key = 'AIzaSyCSEnj3req-uXzLNeFuEgY-57M-AL1nq50';
   $.ajax({
     url: google_url + request.term + '&components=administrative_area:GA|country:US&sensor=false&key=' + key,
     dataType: "json",
@@ -529,7 +529,7 @@ var google_geocoder = function( request, response ) {
         label: item.formatted_address,
         value: item.formatted_address,
         latlng: item.geometry.location.lat+','+item.geometry.location.lng
-        }
+        };
       }));
     }
   });
@@ -543,71 +543,110 @@ var photon_geocoder = function(request, response) {
     'sw': 'southwest',
     'nw': 'northwest',
     'se': 'southeast'
-  }
+  };
   var newterm = request.term.replace(/(\s+)NE|(\s+)NW|(\s+)SE|(\s+)SW/gi, function(matched){
     return ' ' + mapObj[matched.slice(1)];
   });
-  params.q =newterm// request.term.replace(/^NE$/i, 'northeast')//.replace(/^SE$/g, 'southeast').replace(/^NW$/g, 'northwest').replace(/^SW$/g, 'southwest');
+  params.q =newterm;  // request.term.replace(/^NE$/i, 'northeast')//.replace(/^SE$/g, 'southeast').replace(/^NW$/g, 'northwest').replace(/^SW$/g, 'southwest');
 
-  params.lat = '33.766'
-  params.lon = '-84.405'
-  params.limit = '10'
-
+  params.lat = '33.766';
+  params.lon = '-84.405';
+  params.limit = '10';
+  var count = 0;
   $.ajax(this.url, {
     data : params,
     // dataType: "jsonp",
     success: function( data ) {
+      console.log(data.features);
       response( $.map( data.features, function( item ) {
-        console.log(item.properties)
-      var props = item.properties;
-      var desc = [];
-      var title = '';
-      if (props.name){
-        // desc.push(props.name);
-        title = props.name;
-        // desc[0] = '<strong>'+desc[0]+'<strong>'
-      }
 
-      if (props.housenumber && props.street){
-        if (!props.name){
-          title = props.housenumber + ' ' + props.street
-        }
-        else{
-          desc.push(props.housenumber + ' ' + props.street);
-          // desc.push(props.street);
-        }
-      }
-      if (props.city){
-        desc.push(props.city);
-      }
-      if (props.osm_value && props.osm_key != 'building'){
-        if (props.osm_key == 'highway'){
-          desc.push('(road)');  
-        }
-        else{
-          desc.push('('+props.osm_value+')');
-        }
-      }
+        if (item.properties.state === "Georgia"){
+          count++;
+          console.log(item.properties);
+          console.log(count);
+          var props = item.properties;
+          var desc = [];
+          var title = '';
+          if (props.name){
+            // desc.push(props.name);
+            title = props.name;
+            // desc[0] = '<strong>'+desc[0]+'<strong>'
+          }
 
-      return {
-        label: props.name, //item.display_name.split(', Georgia, United States of America')[0],
-        value: props.name, //item.display_name.split(', Georgia, United States of America')[0],
-        latlng: item.geometry.coordinates[1]+','+item.geometry.coordinates[0],
-        desc: desc.join(' ')
-        }
+          if (props.housenumber && props.street){
+            if (!props.name){
+              title = props.housenumber + ' ' + props.street;
+            }
+            else{
+              desc.push(props.housenumber + ' ' + props.street);
+              // desc.push(props.street);
+            }
+          }
+          if (props.city){
+            desc.push(props.city);
+          }
+          if (props.osm_value && props.osm_key != 'building'){
+            if (props.osm_key == 'highway'){
+              desc.push('(road)');  
+            }
+            else{
+              desc.push('('+props.osm_value+')');
+            }
+          }
+        
+          return {
+            label: props.name, //item.display_name.split(', Georgia, United States of America')[0],
+            value: props.name, //item.display_name.split(', Georgia, United States of America')[0],
+            latlng: item.geometry.coordinates[1]+','+item.geometry.coordinates[0],
+            desc: desc.join(' ')
+          };
+        } // end if Georgia
+      }));
+      if (count === 0){
+        request.term = request.term + ' northeast';
+        Geocoder.geocoder(request, response);
+      }
+    }
+  });
+
+};
+
+var esri_geocoder = function(request, response) {
+  
+  var data = {
+    location: '-84.388847,33.750159',
+    distance: 20000,
+    f: 'pjson',
+    searchExtents: '-85.386,34.618,-83.269,32.844',
+    text: request.term
+  };
+
+  $.ajax({
+    url: esri_url + 'suggest',
+    dataType: "json",
+    data: data,
+    success: function( data ) {
+      response( $.map( data.suggestions, function( item ) {
+        var parts = item.text.split(', ')
+        return {
+          label: item.text,
+          value: item.text,
+          // latlng: '33,85',
+          desc: parts[parts.length - 2] + ', ' + parts[parts.length - 1],
+          key: item.magicKey
+        };
       }));
     }
-  })
-
-}
+  });
+};
 
 var nominatim_geocoder = function(request, response) {
   this.url = 'http://open.mapquestapi.com/nominatim/v1/search.php?';
   var params = {};
-  params.q = request.term
-  params.viewbox = '-84.828,33.316,-83.864,34.297'
-  params.countrycodes = 'US'
-  params.format = 'json'
+  params.q = request.term;
+  params.viewbox = '-84.828,33.316,-83.864,34.297';
+  params.countrycodes = 'US';
+  params.format = 'json';
   // params.key = this.key;
   // params.components = 'administrative_area:GA|country:US';
   // params.sensor = 'false';
@@ -630,7 +669,7 @@ var nominatim_geocoder = function(request, response) {
 
 
 var Geocoder = Geocoder || {};
-Geocoder.geocoder = photon_geocoder;
+Geocoder.geocoder = esri_geocoder;
 
 switchLocale();
 
@@ -1417,12 +1456,34 @@ function setupAutoComplete(){
         },
         select: function( event, ui ) {
             $( "#planner-options-from" ).val( ui.item.label );
-            $( "#planner-options-from-latlng" ).val( ui.item.latlng );
+            
             $( "#project-description" ).html( ui.item.desc );
             console.log(ui.item)
-            var point = ui.item.latlng.split(",")
-            addMarker({lat:Number(point[0]),lng:Number(point[1])}, ui.item.label, "circle-stroked")
-            return false;
+            var point;
+            if (typeof ui.item.latlng !== 'undefined'){
+              point = ui.item.latlng.split(",");
+              addMarker({lat:Number(point[0]),lng:Number(point[1])}, ui.item.label, "circle-stroked")
+              $( "#planner-options-from-latlng" ).val( ui.item.latlng );
+              return false;
+            }
+            else{
+              var params = {
+                text: ui.item.label,
+                magicKey: ui.item.key,
+                f: 'pjson'
+              };
+              $.ajax(esri_url + 'find', {
+                data : params,
+                success: function( data ) {
+                  console.log(data);
+                  var json = JSON.parse(data)
+                  var geometry = json.locations[0].feature.geometry;
+                  addMarker({lat:Number(geometry.y),lng:Number(geometry.x)}, ui.item.label, "circle-stroked")
+                  $( "#planner-options-from-latlng" ).val( geometry.y + ',' + geometry.x );
+                  return false;
+                }
+              });
+            } 
         }
 
     })
@@ -1448,10 +1509,34 @@ function setupAutoComplete(){
         },
         select: function( event, ui ) {
             $( "#planner-options-dest" ).val( ui.item.label );
-            $( "#planner-options-dest-latlng" ).val( ui.item.latlng );
-            var point = ui.item.latlng.split(",")
-            addMarker({lat:Number(point[0]),lng:Number(point[1])}, ui.item.label, "circle")
-            return false;
+            
+            $( "#project-description" ).html( ui.item.desc );
+            console.log(ui.item)
+            var point;
+            if (typeof ui.item.latlng !== 'undefined'){
+              point = ui.item.latlng.split(",");
+              addMarker({lat:Number(point[0]),lng:Number(point[1])}, ui.item.label, "circle")
+              $( "#planner-options-dest-latlng" ).val( ui.item.latlng );
+              return false;
+            }
+            else{
+              var params = {
+                text: ui.item.label,
+                magicKey: ui.item.key,
+                f: 'pjson'
+              };
+              $.ajax(esri_url + 'find', {
+                data : params,
+                success: function( data ) {
+                  console.log(data);
+                  var json = JSON.parse(data)
+                  var geometry = json.locations[0].feature.geometry;
+                  addMarker({lat:Number(geometry.y),lng:Number(geometry.x)}, ui.item.label, "circle")
+                  $( "#planner-options-dest-latlng" ).val( geometry.y + ',' + geometry.x );
+                  return false;
+                }
+              });
+            } 
         }
     })
     .data("ui-autocomplete")._renderItem = function (ul, item) {
